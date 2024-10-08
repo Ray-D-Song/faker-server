@@ -1,0 +1,1536 @@
+{
+  "date": [
+    {
+      "zhCN": "月份",
+      "en": "month",
+      "key": "month"
+    },
+    {
+      "zhCN": "星期",
+      "en": "weekday",
+      "key": "weekday"
+    },
+    {
+      "zhCN": "时区",
+      "en": "timeZone",
+      "key": "timeZone"
+    },
+    {
+      "zhCN": "随机",
+      "en": "anytime",
+      "key": "anytime"
+    },
+    {
+      "zhCN": "过去的时间",
+      "en": "past",
+      "key": "past"
+    },
+    {
+      "zhCN": "未来的时间",
+      "en": "future",
+      "key": "future"
+    },
+    {
+      "zhCN": "在...之间",
+      "en": "between",
+      "key": "between"
+    },
+    {
+      "zhCN": "在...之间（多个）",
+      "en": "betweens",
+      "key": "betweens"
+    },
+    {
+      "zhCN": "最近的时间",
+      "en": "recent",
+      "key": "recent"
+    },
+    {
+      "zhCN": "即将发生",
+      "en": "soon",
+      "key": "soon"
+    },
+    {
+      "zhCN": "出生日期",
+      "en": "birthdate",
+      "key": "birthdate"
+    }
+  ],
+  "helpers": [
+    {
+      "zhCN": "生成假数据",
+      "en": "fake",
+      "key": "fake"
+    },
+    {
+      "zhCN": "将字符串转换为slug格式",
+      "en": "slugify",
+      "key": "slugify"
+    },
+    {
+      "zhCN": "替换特殊符号",
+      "en": "replaceSymbols",
+      "key": "replaceSymbols"
+    },
+    {
+      "zhCN": "替换信用卡符号",
+      "en": "replaceCreditCardSymbols",
+      "key": "replaceCreditCardSymbols"
+    },
+    {
+      "zhCN": "从正则表达式生成数据",
+      "en": "fromRegExp",
+      "key": "fromRegExp"
+    },
+    {
+      "zhCN": "打乱数组顺序",
+      "en": "shuffle",
+      "key": "shuffle"
+    },
+    {
+      "zhCN": "唯一数组元素",
+      "en": "uniqueArray",
+      "key": "uniqueArray"
+    },
+    {
+      "zhCN": "Mustache模板",
+      "en": "mustache",
+      "key": "mustache"
+    },
+    {
+      "zhCN": "可能存在",
+      "en": "maybe",
+      "key": "maybe"
+    },
+    {
+      "zhCN": "对象键",
+      "en": "objectKey",
+      "key": "objectKey"
+    },
+    {
+      "zhCN": "对象值",
+      "en": "objectValue",
+      "key": "objectValue"
+    },
+    {
+      "zhCN": "对象键值对",
+      "en": "objectEntry",
+      "key": "objectEntry"
+    },
+    {
+      "zhCN": "数组元素",
+      "en": "arrayElement",
+      "key": "arrayElement"
+    },
+    {
+      "zhCN": "按权重随机选择数组元素",
+      "en": "weightedArrayElement",
+      "key": "weightedArrayElement"
+    },
+    {
+      "zhCN": "随机选择数组元素",
+      "en": "arrayElements",
+      "key": "arrayElements"
+    },
+    {
+      "zhCN": "枚举值",
+      "en": "enumValue",
+      "key": "enumValue"
+    },
+    {
+      "zhCN": "范围转数字",
+      "en": "rangeToNumber",
+      "key": "rangeToNumber"
+    },
+    {
+      "zhCN": "多个值",
+      "en": "multiple",
+      "key": "multiple"
+    }
+  ],
+  "number": [
+    {
+      "zhCN": "整数",
+      "en": "int",
+      "key": "int"
+    },
+    {
+      "zhCN": "浮点数",
+      "en": "float",
+      "key": "float"
+    },
+    {
+      "zhCN": "二进制数",
+      "en": "binary",
+      "key": "binary"
+    },
+    {
+      "zhCN": "八进制数",
+      "en": "octal",
+      "key": "octal"
+    },
+    {
+      "zhCN": "十六进制数",
+      "en": "hex",
+      "key": "hex"
+    },
+    {
+      "zhCN": "大整数",
+      "en": "bigInt",
+      "key": "bigInt"
+    }
+  ],
+  "string": [
+    {
+      "zhCN": "从字符集生成字符串",
+      "en": "fromCharacters",
+      "key": "fromCharacters"
+    },
+    {
+      "zhCN": "字母",
+      "en": "alpha",
+      "key": "alpha"
+    },
+    {
+      "zhCN": "字母数字组合",
+      "en": "alphanumeric",
+      "key": "alphanumeric"
+    },
+    {
+      "zhCN": "二进制字符串",
+      "en": "binary",
+      "key": "binary"
+    },
+    {
+      "zhCN": "八进制字符串",
+      "en": "octal",
+      "key": "octal"
+    },
+    {
+      "zhCN": "十六进制字符串",
+      "en": "hexadecimal",
+      "key": "hexadecimal"
+    },
+    {
+      "zhCN": "数字",
+      "en": "numeric",
+      "key": "numeric"
+    },
+    {
+      "zhCN": "样本",
+      "en": "sample",
+      "key": "sample"
+    },
+    {
+      "zhCN": "UUID",
+      "en": "uuid",
+      "key": "uuid"
+    },
+    {
+      "zhCN": "NanoID",
+      "en": "nanoid",
+      "key": "nanoid"
+    },
+    {
+      "zhCN": "符号",
+      "en": "symbol",
+      "key": "symbol"
+    }
+  ],
+  "airline": [
+    {
+      "zhCN": "机场",
+      "en": "airport",
+      "key": "airport"
+    },
+    {
+      "zhCN": "航空公司",
+      "en": "airline",
+      "key": "airline"
+    },
+    {
+      "zhCN": "飞机",
+      "en": "airplane",
+      "key": "airplane"
+    },
+    {
+      "zhCN": "记录定位码",
+      "en": "recordLocator",
+      "key": "recordLocator"
+    },
+    {
+      "zhCN": "座位",
+      "en": "seat",
+      "key": "seat"
+    },
+    {
+      "zhCN": "飞机类型",
+      "en": "aircraftType",
+      "key": "aircraftType"
+    },
+    {
+      "zhCN": "航班号码",
+      "en": "flightNumber",
+      "key": "flightNumber"
+    }
+  ],
+  "animal": [
+    {
+      "zhCN": "狗",
+      "en": "dog",
+      "key": "dog"
+    },
+    {
+      "zhCN": "猫",
+      "en": "cat",
+      "key": "cat"
+    },
+    {
+      "zhCN": "蛇",
+      "en": "snake",
+      "key": "snake"
+    },
+    {
+      "zhCN": "熊",
+      "en": "bear",
+      "key": "bear"
+    },
+    {
+      "zhCN": "狮子",
+      "en": "lion",
+      "key": "lion"
+    },
+    {
+      "zhCN": "鲸类动物",
+      "en": "cetacean",
+      "key": "cetacean"
+    },
+    {
+      "zhCN": "马",
+      "en": "horse",
+      "key": "horse"
+    },
+    {
+      "zhCN": "鸟",
+      "en": "bird",
+      "key": "bird"
+    },
+    {
+      "zhCN": "牛",
+      "en": "cow",
+      "key": "cow"
+    },
+    {
+      "zhCN": "鱼",
+      "en": "fish",
+      "key": "fish"
+    },
+    {
+      "zhCN": "鳄类动物",
+      "en": "crocodilia",
+      "key": "crocodilia"
+    },
+    {
+      "zhCN": "昆虫",
+      "en": "insect",
+      "key": "insect"
+    },
+    {
+      "zhCN": "兔子",
+      "en": "rabbit",
+      "key": "rabbit"
+    },
+    {
+      "zhCN": "啮齿动物",
+      "en": "rodent",
+      "key": "rodent"
+    },
+    {
+      "zhCN": "种类",
+      "en": "type",
+      "key": "type"
+    }
+  ],
+  "color": [
+    {
+      "zhCN": "人类",
+      "en": "human",
+      "key": "human"
+    },
+    {
+      "zhCN": "太空",
+      "en": "space",
+      "key": "space"
+    },
+    {
+      "zhCN": "CSS支持的函数",
+      "en": "cssSupportedFunction",
+      "key": "cssSupportedFunction"
+    },
+    {
+      "zhCN": "CSS支持的空间",
+      "en": "cssSupportedSpace",
+      "key": "cssSupportedSpace"
+    },
+    {
+      "zhCN": "RGB",
+      "en": "rgb",
+      "key": "rgb"
+    },
+    {
+      "zhCN": "CMYK",
+      "en": "cmyk",
+      "key": "cmyk"
+    },
+    {
+      "zhCN": "HSL",
+      "en": "hsl",
+      "key": "hsl"
+    },
+    {
+      "zhCN": "HWB",
+      "en": "hwb",
+      "key": "hwb"
+    },
+    {
+      "zhCN": "LAB",
+      "en": "lab",
+      "key": "lab"
+    },
+    {
+      "zhCN": "LCH",
+      "en": "lch",
+      "key": "lch"
+    },
+    {
+      "zhCN": "根据CSS颜色空间生成颜色",
+      "en": "colorByCSSColorSpace",
+      "key": "colorByCSSColorSpace"
+    }
+  ],
+  "commerce": [
+    {
+      "zhCN": "部门",
+      "en": "department",
+      "key": "department"
+    },
+    {
+      "zhCN": "产品名称",
+      "en": "productName",
+      "key": "productName"
+    },
+    {
+      "zhCN": "价格",
+      "en": "price",
+      "key": "price"
+    },
+    {
+      "zhCN": "产品形容词",
+      "en": "productAdjective",
+      "key": "productAdjective"
+    },
+    {
+      "zhCN": "产品材料",
+      "en": "productMaterial",
+      "key": "productMaterial"
+    },
+    {
+      "zhCN": "产品",
+      "en": "product",
+      "key": "product"
+    },
+    {
+      "zhCN": "产品描述",
+      "en": "productDescription",
+      "key": "productDescription"
+    },
+    {
+      "zhCN": "ISBN",
+      "en": "isbn",
+      "key": "isbn"
+    }
+  ],
+  "company": [
+    {
+      "zhCN": "公司名称",
+      "en": "name",
+      "key": "name"
+    },
+    {
+      "zhCN": "宣传语",
+      "en": "catchPhrase",
+      "key": "catchPhrase"
+    },
+    {
+      "zhCN": "时髦短语",
+      "en": "buzzPhrase",
+      "key": "buzzPhrase"
+    },
+    {
+      "zhCN": "宣传语形容词",
+      "en": "catchPhraseAdjective",
+      "key": "catchPhraseAdjective"
+    },
+    {
+      "zhCN": "宣传语描述词",
+      "en": "catchPhraseDescriptor",
+      "key": "catchPhraseDescriptor"
+    },
+    {
+      "zhCN": "宣传语名词",
+      "en": "catchPhraseNoun",
+      "key": "catchPhraseNoun"
+    },
+    {
+      "zhCN": "时髦形容词",
+      "en": "buzzAdjective",
+      "key": "buzzAdjective"
+    },
+    {
+      "zhCN": "时髦动词",
+      "en": "buzzVerb",
+      "key": "buzzVerb"
+    },
+    {
+      "zhCN": "时髦名词",
+      "en": "buzzNoun",
+      "key": "buzzNoun"
+    }
+  ],
+  "database": [
+    {
+      "zhCN": "列",
+      "en": "column",
+      "key": "column"
+    },
+    {
+      "zhCN": "类型",
+      "en": "type",
+      "key": "type"
+    },
+    {
+      "zhCN": "校对",
+      "en": "collation",
+      "key": "collation"
+    },
+    {
+      "zhCN": "引擎",
+      "en": "engine",
+      "key": "engine"
+    },
+    {
+      "zhCN": "MongoDB对象ID",
+      "en": "mongodbObjectId",
+      "key": "mongodbObjectId"
+    }
+  ],
+  "finance": [
+    {
+      "zhCN": "账号",
+      "en": "accountNumber",
+      "key": "accountNumber"
+    },
+    {
+      "zhCN": "账户名称",
+      "en": "accountName",
+      "key": "accountName"
+    },
+    {
+      "zhCN": "路由号",
+      "en": "routingNumber",
+      "key": "routingNumber"
+    },
+    {
+      "zhCN": "遮蔽号码",
+      "en": "maskedNumber",
+      "key": "maskedNumber"
+    },
+    {
+      "zhCN": "金额",
+      "en": "amount",
+      "key": "amount"
+    },
+    {
+      "zhCN": "交易类型",
+      "en": "transactionType",
+      "key": "transactionType"
+    },
+    {
+      "zhCN": "货币",
+      "en": "currency",
+      "key": "currency"
+    },
+    {
+      "zhCN": "货币代码",
+      "en": "currencyCode",
+      "key": "currencyCode"
+    },
+    {
+      "zhCN": "货币名称",
+      "en": "currencyName",
+      "key": "currencyName"
+    },
+    {
+      "zhCN": "货币符号",
+      "en": "currencySymbol",
+      "key": "currencySymbol"
+    },
+    {
+      "zhCN": "比特币地址",
+      "en": "bitcoinAddress",
+      "key": "bitcoinAddress"
+    },
+    {
+      "zhCN": "莱特币地址",
+      "en": "litecoinAddress",
+      "key": "litecoinAddress"
+    },
+    {
+      "zhCN": "信用卡号",
+      "en": "creditCardNumber",
+      "key": "creditCardNumber"
+    },
+    {
+      "zhCN": "信用卡CVV",
+      "en": "creditCardCVV",
+      "key": "creditCardCVV"
+    },
+    {
+      "zhCN": "信用卡发行者",
+      "en": "creditCardIssuer",
+      "key": "creditCardIssuer"
+    },
+    {
+      "zhCN": "PIN码",
+      "en": "pin",
+      "key": "pin"
+    },
+    {
+      "zhCN": "以太坊地址",
+      "en": "ethereumAddress",
+      "key": "ethereumAddress"
+    },
+    {
+      "zhCN": "IBAN",
+      "en": "iban",
+      "key": "iban"
+    },
+    {
+      "zhCN": "BIC",
+      "en": "bic",
+      "key": "bic"
+    },
+    {
+      "zhCN": "交易描述",
+      "en": "transactionDescription",
+      "key": "transactionDescription"
+    }
+  ],
+  "food": [
+    {
+      "zhCN": "形容词",
+      "en": "adjective",
+      "key": "adjective"
+    },
+    {
+      "zhCN": "描述",
+      "en": "description",
+      "key": "description"
+    },
+    {
+      "zhCN": "菜肴",
+      "en": "dish",
+      "key": "dish"
+    },
+    {
+      "zhCN": "民族类别",
+      "en": "ethnicCategory",
+      "key": "ethnicCategory"
+    },
+    {
+      "zhCN": "水果",
+      "en": "fruit",
+      "key": "fruit"
+    },
+    {
+      "zhCN": "食材",
+      "en": "ingredient",
+      "key": "ingredient"
+    },
+    {
+      "zhCN": "肉类",
+      "en": "meat",
+      "key": "meat"
+    },
+    {
+      "zhCN": "香料",
+      "en": "spice",
+      "key": "spice"
+    },
+    {
+      "zhCN": "蔬菜",
+      "en": "vegetable",
+      "key": "vegetable"
+    }
+  ],
+  "git": [
+    {
+      "zhCN": "分支",
+      "en": "branch",
+      "key": "branch"
+    },
+    {
+      "zhCN": "提交记录",
+      "en": "commitEntry",
+      "key": "commitEntry"
+    },
+    {
+      "zhCN": "提交信息",
+      "en": "commitMessage",
+      "key": "commitMessage"
+    },
+    {
+      "zhCN": "提交日期",
+      "en": "commitDate",
+      "key": "commitDate"
+    },
+    {
+      "zhCN": "提交SHA",
+      "en": "commitSha",
+      "key": "commitSha"
+    }
+  ],
+  "hacker": [
+    {
+      "zhCN": "缩写",
+      "en": "abbreviation",
+      "key": "abbreviation"
+    },
+    {
+      "zhCN": "形容词",
+      "en": "adjective",
+      "key": "adjective"
+    },
+    {
+      "zhCN": "名词",
+      "en": "noun",
+      "key": "noun"
+    },
+    {
+      "zhCN": "动词",
+      "en": "verb",
+      "key": "verb"
+    },
+    {
+      "zhCN": "进行时动词",
+      "en": "ingverb",
+      "key": "ingverb"
+    },
+    {
+      "zhCN": "短语",
+      "en": "phrase",
+      "key": "phrase"
+    }
+  ],
+  "image": [
+    {
+      "zhCN": "头像",
+      "en": "avatar",
+      "key": "avatar"
+    },
+    {
+      "zhCN": "GitHub头像",
+      "en": "avatarGitHub",
+      "key": "avatarGitHub"
+    },
+    {
+      "zhCN": "旧版头像",
+      "en": "avatarLegacy",
+      "key": "avatarLegacy"
+    },
+    {
+      "zhCN": "URL",
+      "en": "url",
+      "key": "url"
+    },
+    {
+      "zhCN": "LoremFlickr网址",
+      "en": "urlLoremFlickr",
+      "key": "urlLoremFlickr"
+    },
+    {
+      "zhCN": "PicsumPhotos网址",
+      "en": "urlPicsumPhotos",
+      "key": "urlPicsumPhotos"
+    },
+    {
+      "zhCN": "占位符网址",
+      "en": "urlPlaceholder",
+      "key": "urlPlaceholder"
+    },
+    {
+      "zhCN": "数据URI",
+      "en": "dataUri",
+      "key": "dataUri"
+    }
+  ],
+  "internet": [
+    {
+      "zhCN": "电子邮件",
+      "en": "email",
+      "key": "email"
+    },
+    {
+      "zhCN": "示例电子邮件",
+      "en": "exampleEmail",
+      "key": "exampleEmail"
+    },
+    {
+      "zhCN": "用户名",
+      "en": "userName",
+      "key": "userName"
+    },
+    {
+      "zhCN": "显示名称",
+      "en": "displayName",
+      "key": "displayName"
+    },
+    {
+      "zhCN": "协议",
+      "en": "protocol",
+      "key": "protocol"
+    },
+    {
+      "zhCN": "HTTP方法",
+      "en": "httpMethod",
+      "key": "httpMethod"
+    },
+    {
+      "zhCN": "HTTP状态码",
+      "en": "httpStatusCode",
+      "key": "httpStatusCode"
+    },
+    {
+      "zhCN": "URL",
+      "en": "url",
+      "key": "url"
+    },
+    {
+      "zhCN": "域名",
+      "en": "domainName",
+      "key": "domainName"
+    },
+    {
+      "zhCN": "域名后缀",
+      "en": "domainSuffix",
+      "key": "domainSuffix"
+    },
+    {
+      "zhCN": "域词",
+      "en": "domainWord",
+      "key": "domainWord"
+    },
+    {
+      "zhCN": "IP地址",
+      "en": "ip",
+      "key": "ip"
+    },
+    {
+      "zhCN": "IPv4地址",
+      "en": "ipv4",
+      "key": "ipv4"
+    },
+    {
+      "zhCN": "IPv6地址",
+      "en": "ipv6",
+      "key": "ipv6"
+    },
+    {
+      "zhCN": "端口",
+      "en": "port",
+      "key": "port"
+    },
+    {
+      "zhCN": "用户代理",
+      "en": "userAgent",
+      "key": "userAgent"
+    },
+    {
+      "zhCN": "颜色",
+      "en": "color",
+      "key": "color"
+    },
+    {
+      "zhCN": "MAC地址",
+      "en": "mac",
+      "key": "mac"
+    },
+    {
+      "zhCN": "密码",
+      "en": "password",
+      "key": "password"
+    },
+    {
+      "zhCN": "表情符号",
+      "en": "emoji",
+      "key": "emoji"
+    }
+  ],
+  "location": [
+    {
+      "zhCN": "邮政编码",
+      "en": "zipCode",
+      "key": "zipCode"
+    },
+    {
+      "zhCN": "城市",
+      "en": "city",
+      "key": "city"
+    },
+    {
+      "zhCN": "楼号",
+      "en": "buildingNumber",
+      "key": "buildingNumber"
+    },
+    {
+      "zhCN": "街道",
+      "en": "street",
+      "key": "street"
+    },
+    {
+      "zhCN": "街道地址",
+      "en": "streetAddress",
+      "key": "streetAddress"
+    },
+    {
+      "zhCN": "详细地址",
+      "en": "secondaryAddress",
+      "key": "secondaryAddress"
+    },
+    {
+      "zhCN": "县",
+      "en": "county",
+      "key": "county"
+    },
+    {
+      "zhCN": "国家",
+      "en": "country",
+      "key": "country"
+    },
+    {
+      "zhCN": "国家代码",
+      "en": "countryCode",
+      "key": "countryCode"
+    },
+    {
+      "zhCN": "州",
+      "en": "state",
+      "key": "state"
+    },
+    {
+      "zhCN": "纬度",
+      "en": "latitude",
+      "key": "latitude"
+    },
+    {
+      "zhCN": "经度",
+      "en": "longitude",
+      "key": "longitude"
+    },
+    {
+      "zhCN": "方向",
+      "en": "direction",
+      "key": "direction"
+    },
+    {
+      "zhCN": "基本方向",
+      "en": "cardinalDirection",
+      "key": "cardinalDirection"
+    },
+    {
+      "zhCN": "顺序方向",
+      "en": "ordinalDirection",
+      "key": "ordinalDirection"
+    },
+    {
+      "zhCN": "附近的GPS坐标",
+      "en": "nearbyGPSCoordinate",
+      "key": "nearbyGPSCoordinate"
+    },
+    {
+      "zhCN": "时区",
+      "en": "timeZone",
+      "key": "timeZone"
+    }
+  ],
+  "lorem": [
+    {
+      "zhCN": "单词",
+      "en": "word",
+      "key": "word"
+    },
+    {
+      "zhCN": "单词组",
+      "en": "words",
+      "key": "words"
+    },
+    {
+      "zhCN": "句子",
+      "en": "sentence",
+      "key": "sentence"
+    },
+    {
+      "zhCN": "slug",
+      "en": "slug",
+      "key": "slug"
+    },
+    {
+      "zhCN": "句子组",
+      "en": "sentences",
+      "key": "sentences"
+    },
+    {
+      "zhCN": "段落",
+      "en": "paragraph",
+      "key": "paragraph"
+    },
+    {
+      "zhCN": "段落组",
+      "en": "paragraphs",
+      "key": "paragraphs"
+    },
+    {
+      "zhCN": "文本",
+      "en": "text",
+      "key": "text"
+    },
+    {
+      "zhCN": "行",
+      "en": "lines",
+      "key": "lines"
+    }
+  ],
+  "music": [
+    {
+      "zhCN": "专辑",
+      "en": "album",
+      "key": "album"
+    },
+    {
+      "zhCN": "艺术家",
+      "en": "artist",
+      "key": "artist"
+    },
+    {
+      "zhCN": "音乐风格",
+      "en": "genre",
+      "key": "genre"
+    },
+    {
+      "zhCN": "歌曲名称",
+      "en": "songName",
+      "key": "songName"
+    }
+  ],
+  "person": [
+    {
+      "zhCN": "名字",
+      "en": "firstName",
+      "key": "firstName"
+    },
+    {
+      "zhCN": "姓氏",
+      "en": "lastName",
+      "key": "lastName"
+    },
+    {
+      "zhCN": "中间名",
+      "en": "middleName",
+      "key": "middleName"
+    },
+    {
+      "zhCN": "全名",
+      "en": "fullName",
+      "key": "fullName"
+    },
+    {
+      "zhCN": "性别",
+      "en": "gender",
+      "key": "gender"
+    },
+    {
+      "zhCN": "性别",
+      "en": "sex",
+      "key": "sex"
+    },
+    {
+      "zhCN": "性别类型",
+      "en": "sexType",
+      "key": "sexType"
+    },
+    {
+      "zhCN": "个人简介",
+      "en": "bio",
+      "key": "bio"
+    },
+    {
+      "zhCN": "前缀",
+      "en": "prefix",
+      "key": "prefix"
+    },
+    {
+      "zhCN": "后缀",
+      "en": "suffix",
+      "key": "suffix"
+    },
+    {
+      "zhCN": "职称",
+      "en": "jobTitle",
+      "key": "jobTitle"
+    },
+    {
+      "zhCN": "职位描述",
+      "en": "jobDescriptor",
+      "key": "jobDescriptor"
+    },
+    {
+      "zhCN": "职业领域",
+      "en": "jobArea",
+      "key": "jobArea"
+    },
+    {
+      "zhCN": "职业类型",
+      "en": "jobType",
+      "key": "jobType"
+    },
+    {
+      "zhCN": "星座",
+      "en": "zodiacSign",
+      "key": "zodiacSign"
+    }
+  ],
+  "phone": [
+    {
+      "zhCN": "号码",
+      "en": "number",
+      "key": "number"
+    },
+    {
+      "zhCN": "IMEI号码",
+      "en": "imei",
+      "key": "imei"
+    }
+  ],
+  "science": [
+    {
+      "zhCN": "化学元素",
+      "en": "chemicalElement",
+      "key": "chemicalElement"
+    },
+    {
+      "zhCN": "单位",
+      "en": "unit",
+      "key": "unit"
+    }
+  ],
+  "system": [
+    {
+      "zhCN": "文件名",
+      "en": "fileName",
+      "key": "fileName"
+    },
+    {
+      "zhCN": "常见文件名",
+      "en": "commonFileName",
+      "key": "commonFileName"
+    },
+    {
+      "zhCN": "MIME类型",
+      "en": "mimeType",
+      "key": "mimeType"
+    },
+    {
+      "zhCN": "常见文件类型",
+      "en": "commonFileType",
+      "key": "commonFileType"
+    },
+    {
+      "zhCN": "常见文件扩展名",
+      "en": "commonFileExt",
+      "key": "commonFileExt"
+    },
+    {
+      "zhCN": "文件类型",
+      "en": "fileType",
+      "key": "fileType"
+    },
+    {
+      "zhCN": "文件扩展名",
+      "en": "fileExt",
+      "key": "fileExt"
+    },
+    {
+      "zhCN": "目录路径",
+      "en": "directoryPath",
+      "key": "directoryPath"
+    },
+    {
+      "zhCN": "文件路径",
+      "en": "filePath",
+      "key": "filePath"
+    },
+    {
+      "zhCN": "SemVer版本号",
+      "en": "semver",
+      "key": "semver"
+    },
+    {
+      "zhCN": "网络接口",
+      "en": "networkInterface",
+      "key": "networkInterface"
+    },
+    {
+      "zhCN": "定时任务",
+      "en": "cron",
+      "key": "cron"
+    }
+  ],
+  "vehicle": [
+    {
+      "zhCN": "交通工具",
+      "en": "vehicle",
+      "key": "vehicle"
+    },
+    {
+      "zhCN": "制造商",
+      "en": "manufacturer",
+      "key": "manufacturer"
+    },
+    {
+      "zhCN": "型号",
+      "en": "model",
+      "key": "model"
+    },
+    {
+      "zhCN": "类型",
+      "en": "type",
+      "key": "type"
+    },
+    {
+      "zhCN": "燃料",
+      "en": "fuel",
+      "key": "fuel"
+    },
+    {
+      "zhCN": "车辆识别码",
+      "en": "vin",
+      "key": "vin"
+    },
+    {
+      "zhCN": "颜色",
+      "en": "color",
+      "key": "color"
+    },
+    {
+      "zhCN": "车牌号",
+      "en": "vrm",
+      "key": "vrm"
+    },
+    {
+      "zhCN": "自行车",
+      "en": "bicycle",
+      "key": "bicycle"
+    }
+  ],
+  "word": [
+    {
+      "zhCN": "形容词",
+      "en": "adjective",
+      "key": "adjective"
+    },
+    {
+      "zhCN": "副词",
+      "en": "adverb",
+      "key": "adverb"
+    },
+    {
+      "zhCN": "连词",
+      "en": "conjunction",
+      "key": "conjunction"
+    },
+    {
+      "zhCN": "感叹词",
+      "en": "interjection",
+      "key": "interjection"
+    },
+    {
+      "zhCN": "名词",
+      "en": "noun",
+      "key": "noun"
+    },
+    {
+      "zhCN": "介词",
+      "en": "preposition",
+      "key": "preposition"
+    },
+    {
+      "zhCN": "动词",
+      "en": "verb",
+      "key": "verb"
+    },
+    {
+      "zhCN": "样本",
+      "en": "sample",
+      "key": "sample"
+    },
+    {
+      "zhCN": "单词组",
+      "en": "words",
+      "key": "words"
+    }
+  ],
+  "rawDefinitions": [
+    {
+      "zhCN": "航空公司",
+      "en": "airline",
+      "key": "airline"
+    },
+    {
+      "zhCN": "动物",
+      "en": "animal",
+      "key": "animal"
+    },
+    {
+      "zhCN": "应用",
+      "en": "app",
+      "key": "app"
+    },
+    {
+      "zhCN": "手机",
+      "en": "cell_phone",
+      "key": "cell_phone"
+    },
+    {
+      "zhCN": "颜色",
+      "en": "color",
+      "key": "color"
+    },
+    {
+      "zhCN": "商业",
+      "en": "commerce",
+      "key": "commerce"
+    },
+    {
+      "zhCN": "公司",
+      "en": "company",
+      "key": "company"
+    },
+    {
+      "zhCN": "数据库",
+      "en": "database",
+      "key": "database"
+    },
+    {
+      "zhCN": "日期",
+      "en": "date",
+      "key": "date"
+    },
+    {
+      "zhCN": "金融",
+      "en": "finance",
+      "key": "finance"
+    },
+    {
+      "zhCN": "食品",
+      "en": "food",
+      "key": "food"
+    },
+    {
+      "zhCN": "黑客",
+      "en": "hacker",
+      "key": "hacker"
+    },
+    {
+      "zhCN": "互联网",
+      "en": "internet",
+      "key": "internet"
+    },
+    {
+      "zhCN": "地点",
+      "en": "location",
+      "key": "location"
+    },
+    {
+      "zhCN": "lorem",
+      "en": "lorem",
+      "key": "lorem"
+    },
+    {
+      "zhCN": "元数据",
+      "en": "metadata",
+      "key": "metadata"
+    },
+    {
+      "zhCN": "音乐",
+      "en": "music",
+      "key": "music"
+    },
+    {
+      "zhCN": "个人信息",
+      "en": "person",
+      "key": "person"
+    },
+    {
+      "zhCN": "电话号码",
+      "en": "phone_number",
+      "key": "phone_number"
+    },
+    {
+      "zhCN": "科学",
+      "en": "science",
+      "key": "science"
+    },
+    {
+      "zhCN": "团队",
+      "en": "team",
+      "key": "team"
+    },
+    {
+      "zhCN": "车辆",
+      "en": "vehicle",
+      "key": "vehicle"
+    },
+    {
+      "zhCN": "单词",
+      "en": "word",
+      "key": "word"
+    },
+    {
+      "zhCN": "系统",
+      "en": "system",
+      "key": "system"
+    }
+  ],
+  "definitions": [
+    {
+      "zhCN": "航空公司",
+      "en": "airline",
+      "key": "airline"
+    },
+    {
+      "zhCN": "动物",
+      "en": "animal",
+      "key": "animal"
+    },
+    {
+      "zhCN": "应用",
+      "en": "app",
+      "key": "app"
+    },
+    {
+      "zhCN": "手机",
+      "en": "cell_phone",
+      "key": "cell_phone"
+    },
+    {
+      "zhCN": "颜色",
+      "en": "color",
+      "key": "color"
+    },
+    {
+      "zhCN": "商业",
+      "en": "commerce",
+      "key": "commerce"
+    },
+    {
+      "zhCN": "公司",
+      "en": "company",
+      "key": "company"
+    },
+    {
+      "zhCN": "数据库",
+      "en": "database",
+      "key": "database"
+    },
+    {
+      "zhCN": "日期",
+      "en": "date",
+      "key": "date"
+    },
+    {
+      "zhCN": "金融",
+      "en": "finance",
+      "key": "finance"
+    },
+    {
+      "zhCN": "食品",
+      "en": "food",
+      "key": "food"
+    },
+    {
+      "zhCN": "黑客",
+      "en": "hacker",
+      "key": "hacker"
+    },
+    {
+      "zhCN": "互联网",
+      "en": "internet",
+      "key": "internet"
+    },
+    {
+      "zhCN": "地点",
+      "en": "location",
+      "key": "location"
+    },
+    {
+      "zhCN": "lorem",
+      "en": "lorem",
+      "key": "lorem"
+    },
+    {
+      "zhCN": "元数据",
+      "en": "metadata",
+      "key": "metadata"
+    },
+    {
+      "zhCN": "音乐",
+      "en": "music",
+      "key": "music"
+    },
+    {
+      "zhCN": "个人信息",
+      "en": "person",
+      "key": "person"
+    },
+    {
+      "zhCN": "电话号码",
+      "en": "phone_number",
+      "key": "phone_number"
+    },
+    {
+      "zhCN": "科学",
+      "en": "science",
+      "key": "science"
+    },
+    {
+      "zhCN": "团队",
+      "en": "team",
+      "key": "team"
+    },
+    {
+      "zhCN": "车辆",
+      "en": "vehicle",
+      "key": "vehicle"
+    },
+    {
+      "zhCN": "单词",
+      "en": "word",
+      "key": "word"
+    },
+    {
+      "zhCN": "系统",
+      "en": "system",
+      "key": "system"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Build output
+dist
+dist-ssr
+
+# Dependencies
+node_modules
+.yarn/
+!.yarn/releases
+.wrangler
+
+# Local files
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/*.code-snippets
+.idea
+.idea/workspace.xml
+.idea/usage.statistics.xml
+.idea/shelf
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Environment variables
+.env
+.env.production
+.dev.vars
+
+# OS generated files
+.DS_Store

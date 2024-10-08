@@ -1,0 +1,51 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// model Project {
+//   id          Int      @id @default(autoincrement())
+//   name        String   @map("name")
+//   description String?  @map("description")
+//   createdAt   DateTime @default(now()) @map("created_at")
+//   updatedAt   DateTime @default(now()) @map("updated_at")
+//   deletedAt   DateTime? @map("deleted_at")
+//   deleted     Int      @default(0) @map("deleted")
+
+//   apis        Api[]
+// }
+
+model Api {
+  id              Int      @id @default(autoincrement())
+  name            String   @map("name")
+  method          String   @map("method")
+  path            String   @unique @map("path")
+  deleted         Int      @default(0) @map("deleted")
+
+  description     String?  @map("description")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @default(now()) @map("updated_at")
+  deletedAt       DateTime? @map("deleted_at")
+
+  reqParams       String?  @map("req_params")
+  // reqBody         String?  @map("req_body")
+  reqHeaders      String?  @map("req_headers")
+  // reqCookies      String?  @map("req_cookies")
+  // reqAuth         String?  @map("req_auth")
+
+  resHeaders      String?  @map("res_headers")
+  resResponseType String   @default("application/json") @map("res_response_type")
+  resBody         String?  @map("res_body")
+  // resBodySpec     String?  @map("res_body_spec")
+
+  // projectId       Int
+  // project         Project  @relation(fields: [projectId], references: [id])
+}
