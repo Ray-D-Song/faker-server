@@ -1,6 +1,7 @@
 {
   "name": "@faker-server/server",
   "type": "module",
+  "private": true,
   "scripts": {
     "build:node": "node esbuild.config.mjs",
     "dev": "pnpm run build:node && cd dist && node index.cjs",
