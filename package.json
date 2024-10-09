@@ -3,12 +3,10 @@
   "version": "0.1.0",
   "description": "Faker.js mock server",
   "scripts": {
-    "dev:client": "pnpm --filter client dev",
-    "build:client": "pnpm --filter client build",
-    "dev:server": "pnpm --filter server dev",
-    "build:server:cf": "pnpm --filter server build:cf",
-    "build:server:tc": "pnpm --filter server build:tc",
-    "build": "pnpm run build:server:cf && pnpm run build:client"
+    "dev:client": "pnpm run --filter client dev",
+    "dev:server": "pnpm run --filter server dev",
+    "build:node": "pnpm run --filter server build:node && pnpm run --filter client build",
+    "build:cf": "pnpm run --filter server build:cf && pnpm run --filter client build"
   },
   "keywords": [
     "faker",

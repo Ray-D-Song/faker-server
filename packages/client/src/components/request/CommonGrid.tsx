@@ -10,7 +10,7 @@ interface CommonGridProps {
     type: 'input' | 'select',
     options?: Array<string>
   }>
-  onUpdate: (val: string) => void
+  onUpdate: (val: unknown) => void
 }
 
 function CommonGrid({ cols, onUpdate }: CommonGridProps) {
@@ -79,8 +79,7 @@ function CommonGrid({ cols, onUpdate }: CommonGridProps) {
       acc[row.field1] = row.field2;
       return acc;
     }, {});
-    const jsonString = JSON.stringify(resultObject);
-    onUpdate(jsonString)
+    onUpdate(resultObject)
   }, [rows]);
 
   const apiRef = useGridApiRef();

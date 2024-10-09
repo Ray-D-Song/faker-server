@@ -1,4 +1,16 @@
 {
+  "boolean": [
+    {
+      "zhCN": "true",
+      "en": "true",
+      "key": "true"
+    },
+    {
+      "zhCN": "false",
+      "en": "false",
+      "key": "false"
+    }
+  ],
   "date": [
     {
       "zhCN": "月份",

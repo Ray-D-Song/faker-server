@@ -10,6 +10,12 @@ export default defineConfig({
   ],
   server: {
     port: 9981,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+      },
+    },
   },
   build: {
     rollupOptions: {

@@ -2,25 +2,24 @@
   "name": "@faker-server/server",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "build:cf": "PLATEFORM=cloudflare vite build",
-    "build:tc": "PLATEFORM=tencent vite build",
-    "preview": "wrangler pages dev",
-    "deploy": "$npm_execpath run build && wrangler pages deploy"
+    "build:node": "node esbuild.config.mjs",
+    "dev": "pnpm run build:node && cd dist && node index.cjs",
+    "build:cf": "vite build --config vite.cf.config.ts"
   },
   "dependencies": {
     "@faker-js/faker": "^9.0.3",
-    "@prisma/adapter-d1": "^5.20.0",
-    "@prisma/client": "5.20.0",
-    "hono": "^4.6.3"
+    "@hono/node-server": "^1.13.1",
+    "dotenv": "^16.4.5",
+    "hono": "^4.6.3",
+    "mongodb": "^6.9.0"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240529.0",
     "@hono/vite-build": "^1.0.0",
     "@hono/vite-dev-server": "^0.15.1",
     "@types/node": "^22.7.5",
-    "prisma": "^5.20.0",
+    "esbuild": "^0.24.0",
+    "typescript": "^5.5.3",
     "vite": "^5.2.12",
     "wrangler": "^3.57.2"
   }

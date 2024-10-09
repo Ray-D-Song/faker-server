@@ -4,32 +4,31 @@ import { Fade } from '@mui/material'; // 添加 Fade 组件
 import QueryGrid from './request/QueryGrid';
 import HeadersGrid from './request/HeadersGrid';
 import JsonEditor from './response/JsonEditor';
+import { toast } from 'react-hot-toast';
 
 interface ApiEditorProps {
-  apiUrl?: string; // 如果是修改状态,则传入接口地址
+  type: 'update' | 'create';
+  apiId: string | null;
   onSave: (apiData: ApiData) => void;
-  onCancel: () => void;
+  apiKey: string;
 }
 
-interface ApiData {
+export interface ApiData {
+  _id?: string;
   name: string;
   path: string;
   method: string;
   description: string;
-  reqParams: string;
-  reqBody: string;
-  reqHeaders: string;
-  reqCookies: string;
-  reqAuth: string;
-  resStatus: number;
-  resHeaders: string;
+  reqParams: unknown;
+  reqHeaders: unknown;
+  resHeaders: unknown;
   resResponseType: string;
-  resBody: string;
+  resBody: unknown;
 }
 
 const HTTP_METHODS = ['GET', 'POST', 'PUT', 'DELETE'];
 
-function ApiEditor({ apiUrl, onSave }: ApiEditorProps) {
+function ApiEditor({ type, apiId, onSave, apiKey }: ApiEditorProps) {
   const [loading, setLoading] = useState(false);
   const [apiData, setApiData] = useState<ApiData>({
     name: '',
@@ -37,37 +36,51 @@ function ApiEditor({ apiUrl, onSave }: ApiEditorProps) {
     method: 'GET',
     description: '',
     reqParams: '',
-    reqBody: '',
     reqHeaders: '',
-    reqCookies: '',
-    reqAuth: '',
-    resStatus: 200,
     resHeaders: '',
-    resResponseType: 'application/json',
-    resBody: '',
+    resResponseType: 'json',
+    resBody: undefined,
   });
-  useEffect(() => {
-    if(import.meta.env.DEV) {
-      console.log(apiData)
-    }
-  }, [apiData])
   const [activeTab, setActiveTab] = useState(0);
 
   useEffect(() => {
-    if (apiUrl) {
-      setLoading(true);
-      fetch(`/api/getApiDetails?url=${encodeURIComponent(apiUrl)}`)
-        .then(response => response.json())
-        .then(data => {
-          setApiData(data);
-          setLoading(false);
-        })
-        .catch(error => {
-          console.error('Error fetching API details:', error);
-          setLoading(false);
-        });
+    if (type === 'update' && apiId) {
+      fetchApiDetail(apiId);
+    } else {
+      setApiData({
+        name: '',
+        path: '',
+        method: 'GET',
+        description: '',
+        reqParams: '',
+        reqHeaders: '',
+        resHeaders: '',
+        resResponseType: 'json',
+        resBody: {},
+      });
     }
-  }, [apiUrl]);
+  }, [type, apiId]);
+
+  const fetchApiDetail = async (id: string) => {
+    setLoading(true);
+    try {
+      const response = await fetch(`/api/detail/${id}`, {
+        headers: {
+          'Mock-Server-Key': apiKey
+        }
+      });
+      if (!response.ok) {
+        throw new Error('获取 API 详情失败');
+      }
+      const data = await response.json();
+      setApiData(data);
+    } catch (error) {
+      console.error('获取 API 详情时出错:', error);
+      toast.error('获取 API 详情失败');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | { name?: string; value: unknown }>) => {
     const { name, value } = event.target;
@@ -83,15 +96,15 @@ function ApiEditor({ apiUrl, onSave }: ApiEditorProps) {
     setActiveTab(newValue);
   };
 
-  const handleQueryUpdate = (query: string) => {
+  const handleQueryUpdate = (query: unknown) => {
     setApiData(prevData => ({ ...prevData, reqParams: query }));
   };
 
-  const handleHeadersUpdate = (headers: string) => {
+  const handleHeadersUpdate = (headers: unknown) => {
     setApiData(prevData => ({ ...prevData, reqHeaders: headers }));
   };
 
-  const handleResBodyUpdate = (body: string) => {
+  const handleResBodyUpdate = (body: unknown) => {
     setApiData(prevData => ({ ...prevData, resBody: body }));
   };
 
@@ -101,7 +114,7 @@ function ApiEditor({ apiUrl, onSave }: ApiEditorProps) {
 
   return (
     <Box component="form" onSubmit={handleSubmit} sx={{ '& > :not(style)': { m: 1 } }}>
-      <Typography variant="h6">{apiUrl ? '修改接口' : '新增接口'}</Typography>
+      <Typography variant="h6">{type === 'update' ? '修改接口' : '新增接口'}</Typography>
       <TextField
         size='small'
         fullWidth
@@ -167,7 +180,7 @@ function ApiEditor({ apiUrl, onSave }: ApiEditorProps) {
         </Fade>
       </Box>
       <Typography variant="h6">响应数据</Typography>
-      <JsonEditor onChange={handleResBodyUpdate} />
+      <JsonEditor onChange={handleResBodyUpdate} initData={apiData.resBody} />
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
         <Button variant="contained" type="submit">保存</Button>
       </Box>

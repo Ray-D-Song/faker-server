@@ -1,47 +1,63 @@
-type Type = 'none' | 'application/json' | 'text/plain'
-| 'application/xml' | 'text/html'
-| 'application/octet-stream'
+import { faker } from '@faker-js/faker'
 
-type MimeTypeMap = {
-  'none': null,
-  'application/json': Record<string, any>,
-  'text/plain': string,
-  'application/xml': string,
-  'application/x-www-form-urlencoded': URLSearchParams,
-  'application/octet-stream': ArrayBuffer,
-  'multipart/form-data': FormData
+interface JsonNode {
+  key: string;
+  type: string;
+  mock: string;
+  children?: JsonNode[];
+  length?: number;
 }
 
-type Body<T extends Type> = T extends keyof MimeTypeMap ? MimeTypeMap[T] : null
-
-interface SourceItem {
-  // json key
-  key: string
-  type: 'string' | 'integer' | 'number' | 'boolean' | 'array' | 'object' | 'number' | 'null'
-  // faker.js mock type
-  mock: string
-  desc: string
-  children?: SourceItem[]
-}
-
-function processResBody<T extends Type>(type: T, raw?: string, spec?: string): Body<T> {
-
-  if (type === 'none') return null as Body<T>
-
-  if (type === 'application/json') {
-    if (spec) return JSON.parse(spec) as Body<T>
-    if (!raw) return {} as Body<T>
-    const source = JSON.parse(raw) as SourceItem[]
+function processResBody(body: JsonNode[]): any {
+  function processNode(node: JsonNode): any {
+    switch (node.type) {
+      case 'object':
+        const obj: { [key: string]: any } = {};
+        node.children?.forEach(child => {
+          obj[child.key] = processNode(child);
+        });
+        return obj;
+      case 'array':
+        const arr: any[] = [];
+        const length = node.length || 1;
+        for (let i = 0; i < length; i++) {
+          arr.push(processNode(node.children?.[0] || { key: 'item', type: 'string', mock: 'string.alphanumeric' }));
+        }
+        return arr;
+      case 'string':
+      case 'number':
+      case 'boolean':
+        return fake(node.mock);
+      case 'null':
+        return null;
+      case 'any':
+        return fake('datatype.json');
+      default:
+        return undefined;
+    }
   }
 
-return null as Body<T>
-  return null as Body<T>
+  return processNode(body[0]);
 }
 
-function sourceHandler(s: SourceItem) {
+function fake(key: string) {
+  const parts = key.split('.')
+  let currentObject: any = faker
 
+  for (const part of parts) {
+    if (typeof currentObject[part] === 'function') {
+      return currentObject[part]()
+    } else if (currentObject[part] !== undefined) {
+      currentObject = currentObject[part]
+    } else {
+      throw new Error(`Generate mock data failed: ${key}`)
+    }
+  }
+
+  throw new Error(`Generate mock data failed: ${key}`)
 }
 
 export {
-  processResBody
+  processResBody,
+  fake
 }

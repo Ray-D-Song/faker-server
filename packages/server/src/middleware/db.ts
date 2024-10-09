@@ -1,35 +1,23 @@
-import { PrismaClient } from '@prisma/client'
-import { PrismaD1 } from '@prisma/adapter-d1'
 import { Context, Next } from 'hono'
+import { MongoClient } from 'mongodb'
+import { env } from 'hono/adapter'
 
 export default async (c: Context, next: Next) => {
-  let prisma
-  if (process.env.PLATEFORM === 'cloudflare') {
-    const adapter = new PrismaD1(c.env.DB)
-    prisma = new PrismaClient({ adapter })
+  const { MONGO_URL } = env(c)
+  if (!MONGO_URL) {
+    throw new Error('MONGO_URL is not set')
   }
 
-  if (!prisma) {
-    throw new Error('Prisma client not initialized')
+  const client = new MongoClient(MONGO_URL)
+  try {
+    await client.connect()
+
+    c.set('db', client.db())
+    await next()
+  } catch (error) {
+    console.error('Error connecting to MongoDB:', error)
+    return c.json({ error: 'Internal Server Error' }, 500)
+  } finally {
+    await client.close()
   }
-
-  const seed = await prisma.api.findUnique({
-    where: { path: 'hello' }
-  })
-  if (!seed)
-    await prisma.api.create({
-      data: {
-        name: 'My API',
-        path: 'hello',
-        description: 'My first API',
-        resStatus: 200,
-        method: 'GET',
-        resResponseType: 'application/json',
-        resBody: JSON.stringify({ message: 'Hello, World!' }),
-      }
-    })
-
-
-  c.set('db', prisma)
-  await next()
 }

@@ -5,8 +5,3 @@ compatibility_flags = [ "nodejs_compat" ]
 
 [vars]
 TOKEN = "faker-server"
-
-[[d1_databases]]
-binding = "DB"
-database_name = "faker-server"
-database_id = "e89617b6-cea3-4dfc-a2fa-3e1e3db09ca2"

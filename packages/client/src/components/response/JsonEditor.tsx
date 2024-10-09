@@ -11,17 +11,19 @@ interface JsonNode {
   mock: string;
   children?: JsonNode[];
   options?: string[];
+  length?: number;
 }
 
 const typeOptions = ['string', 'number', 'boolean', 'array', 'object', 'null', 'any'];
 
 interface JsonEditorProps {
-  onChange: (val: string) => void;
+  onChange: (val: unknown) => void;
+  initData?: unknown;
 }
 
-const JsonEditor: React.FC<JsonEditorProps> = ({ onChange }) => {
-  const [data, setData] = useState<JsonNode[]>([
-    { key: 'root', type: 'object', mock: '', children: [], options: ['object', 'array'] }
+const JsonEditor: React.FC<JsonEditorProps> = ({ onChange, initData }) => {
+  const [data, setData] = useState<JsonNode[]>(initData as JsonNode[] || [
+    { key: 'root', type: 'object', mock: '', children: [], options: ['object', 'array'], length: 1 }
   ]);
 
   // 生成所有节点的 ID 数组
@@ -41,8 +43,7 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ onChange }) => {
   }, [data]);
 
   useEffect(() => {
-    const jsonString = JSON.stringify(data)
-    onChange(jsonString)
+    onChange(data)
   }, [data])
 
   const renderTree = (nodes: JsonNode[], parentId = '') => (
@@ -50,6 +51,9 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ onChange }) => {
       const currentId = parentId ? `${parentId}-${index}` : `${index}`;
       const isRoot = currentId === '0';
       const isArrayChild = parentId.split('-').length > 1 && nodes[0].key === 'item';
+      const parentNode = parentId ? getNodeByPath(data, parentId.split('-').map(Number)) : null;
+      const isParentArray = parentNode?.type === 'array';
+
       return (
         <TreeItem
           itemId={currentId}
@@ -102,12 +106,18 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ onChange }) => {
               )}
               {node.type === 'array' && (
                 <Grid2>
-                  <span style={{ color: 'gray', fontSize: '0.8em' }}>
-                    （配置数组元素）
-                  </span>
+                  <TextField
+                    size="small"
+                    type="number"
+                    value={node.length || ''}
+                    onChange={(e) => handleChange(node, 'length', e.target.value)}
+                    onFocus={(e) => e.stopPropagation()}
+                    onClick={(e) => e.stopPropagation()}
+                    label="数组长度"
+                  />
                 </Grid2>
               )}
-              {!isRoot && !isArrayChild && (
+              {!isRoot && !isArrayChild && !isParentArray && (
                 <Grid2>
                   <IconButton onClick={() => deleteNode(node, parentId)} size="small">
                     <DeleteOutlineIcon />
@@ -128,8 +138,23 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ onChange }) => {
       return nodes.map((n) => {
         if (n === node) {
           const updatedNode = { ...n, [field]: value };
-          if (field === 'type' && value === 'array' && !n.children?.length) {
-            updatedNode.children = [{ key: 'item', type: 'string', mock: '' }];
+          if (field === 'type') {
+            switch (value) {
+              case 'array':
+                if (!n.children?.length) {
+                  updatedNode.children = [{ key: 'item', type: 'string', mock: 'string.alphanumeric' }];
+                }
+                break;
+              case 'string':
+                updatedNode.mock = 'string.alphanumeric';
+                break;
+              case 'number':
+                updatedNode.mock = 'number.int';
+                break;
+              case 'boolean':
+                updatedNode.mock = 'boolean.true';
+                break;
+            }
           }
           return updatedNode;
         }
@@ -144,7 +169,7 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ onChange }) => {
   };
 
   const addChild = (parent: JsonNode) => {
-    const newChild: JsonNode = { key: 'newKey', type: 'string', mock: '' };
+    const newChild: JsonNode = { key: 'newKey', type: 'string', mock: 'string.alphanumeric' };
     const updateNode = (nodes: JsonNode[]): JsonNode[] => {
       return nodes.map((n) => {
         if (n === parent) {
@@ -174,6 +199,19 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ onChange }) => {
     };
 
     setData(prevData => updateNode(prevData));
+  };
+
+  // 添加这个辅助函数来根据路径获取节点
+  const getNodeByPath = (nodes: JsonNode[], path: number[]): JsonNode | null => {
+    let currentNode: JsonNode | null = nodes[path[0]] || null;
+    for (let i = 1; i < path.length; i++) {
+      if (currentNode && currentNode.children) {
+        currentNode = currentNode.children[path[i]] || null;
+      } else {
+        return null;
+      }
+    }
+    return currentNode;
   };
 
   return (

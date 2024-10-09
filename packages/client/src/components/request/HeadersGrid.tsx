@@ -7,7 +7,7 @@ const commonHeaders = [
   'User-Agent', 'X-Requested-With'
 ];
 
-function HeadersGrid({ onUpdate }: { onUpdate: (headers: string) => void }) {
+function HeadersGrid({ onUpdate }: { onUpdate: (headers: unknown) => void }) {
   return (
     <CommonGrid
       cols={[{

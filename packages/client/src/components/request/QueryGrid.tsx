@@ -2,7 +2,7 @@ import CommonGrid from './CommonGrid';
 
 const typeOptions = ['string', 'boolean', 'number', 'array'];
 
-function QueryGrid({ onUpdate }: { onUpdate: (query: string) => void }) {
+function QueryGrid({ onUpdate }: { onUpdate: (query: unknown) => void }) {
   return (
     <CommonGrid
       cols={[{
