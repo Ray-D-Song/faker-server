@@ -30,6 +30,6 @@ esbuild.build({
   bundle: true,
   platform: 'node',
   format: 'cjs',
-  outfile: 'dist/index.cjs',
+  outfile: '../../dist/index.cjs',
   plugins: [generateEnvFilePlugin],
 }).catch(() => process.exit(1));

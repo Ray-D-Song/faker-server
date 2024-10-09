@@ -5,7 +5,9 @@ import { defineConfig } from 'vite'
 
 export default defineConfig({
   plugins: [
-    build(),
+    build({
+      outputDir: '../../dist'
+    }),
     devServer({
       adapter,
       entry: 'src/entry.cf.ts'
