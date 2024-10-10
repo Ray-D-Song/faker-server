@@ -1,25 +1,45 @@
 import path from 'path'
-import { readFile } from 'fs/promises'
-import { getMimeType } from 'hono/utils/mime'
 import app from './entry.cf'
 import dotenv from 'dotenv'
 import { serve } from '@hono/node-server'
+import { serveStatic } from '@hono/node-server/serve-static'
+import fs from 'fs'
+import os from 'os'
+import { logger } from 'hono/logger'
 
-dotenv.config()
+const homeDir = os.homedir()
+const configDir = path.join(homeDir, '.faker-server')
+const configFile = path.join(configDir, '.env')
 
-app.use('static/*', async (c) => {
-  const filePath = path.join('./static', c.req.path.replace('/static/', ''))
-  try {
-    const content = await readFile(filePath)
-    if (!content) {
-      return c.text('Not Found', 404)
-    }
-    const mimeType = getMimeType(filePath)
-    return c.body(content, 200, { 'Content-Type': mimeType || 'text/plain' })
-  } catch (_error) {
-    return c.text('Not Found', 404)
-  }
-})
+// 检查配置目录是否存在,不存在则创建
+if (!fs.existsSync(configDir)) {
+  fs.mkdirSync(configDir, { recursive: true })
+}
+
+// 检查配置文件是否存在,不存在则创建
+if (!fs.existsSync(configFile)) {
+  const defaultConfig = `
+# Server Port
+PORT=3000
+
+# Remember to change this key
+KEY=123456-123456-123456-123456
+
+# MongoDB URL
+MONGO_URL=mongodb://admin:password@localhost:27017?authSource=admin
+`.trim()
+
+  fs.writeFileSync(configFile, defaultConfig)
+  console.log('Created default configuration file at:', configFile)
+}
+
+dotenv.config({ path: configFile })
+
+app.use(logger())
+
+app.get('/static/*', serveStatic({
+  root: path.relative(process.cwd(), __dirname)
+}))
 
 serve({
   ...app,
