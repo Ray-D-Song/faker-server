@@ -1,3 +1,7 @@
+## Directory
+- [简体中文](./docs/zh_CN/README.zhCN.md)
+- [English](./README.md)
+
 ## Faker Server
 Faker Server is a mock server based on Faker.js. It can be used to generate mock data for development and testing.  
 
