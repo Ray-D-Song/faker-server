@@ -1,15 +1,15 @@
 import { Hono } from 'hono'
 import { Bindings } from './utils/binding'
 import dbMiddleware from './middleware/db'
-import guardMiddleware from './middleware/guard'
 import mockApp from './api/mock'
 import crudApp from './api/crud'
+import guard from './middleware/guard'
 
 const app = new Hono<{ Bindings: Bindings }>()
 
 app.use(dbMiddleware)
-app.use('/mock/*', guardMiddleware)
-app.use('/api/*', guardMiddleware)
+app.use('/mock/*', guard.mockGuard)
+app.use('/api/*', guard.apiGuard)
 
 app.get('/', async (c) => {
   return c.html(

@@ -1,5 +1,5 @@
 import path from 'path'
-import app from './entry.cf'
+import app from './main'
 import dotenv from 'dotenv'
 import { serve } from '@hono/node-server'
 import { serveStatic } from '@hono/node-server/serve-static'
@@ -11,19 +11,27 @@ const homeDir = os.homedir()
 const configDir = path.join(homeDir, '.faker-server')
 const configFile = path.join(configDir, '.env')
 
-// 检查配置目录是否存在,不存在则创建
 if (!fs.existsSync(configDir)) {
   fs.mkdirSync(configDir, { recursive: true })
 }
 
-// 检查配置文件是否存在,不存在则创建
+// check config file exists, if not create it
 if (!fs.existsSync(configFile)) {
+  const accessKey = crypto.randomUUID()
+  const adminKey = crypto.randomUUID()
   const defaultConfig = `
 # Server Port
 PORT=3000
 
-# Remember to change this key
-KEY=123456-123456-123456-123456
+# Access /mock/* API
+ACCESS_KEY=${accessKey}
+
+# If true, the server will allow public access to the /mock/* API
+# /api/* will continue to require authentication
+PUBLIC_ACCESS=false
+
+# Access /api/* API
+ADMIN_KEY=${adminKey}
 
 # MongoDB URL
 MONGO_URL=mongodb://admin:password@localhost:27017?authSource=admin

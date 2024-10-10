@@ -66,7 +66,7 @@ function ApiEditor({ type, apiId, onSave, apiKey }: ApiEditorProps) {
     try {
       const response = await fetch(`/api/detail/${id}`, {
         headers: {
-          'Mock-Server-Key': apiKey
+          'Faker-Server-Key': apiKey
         }
       });
       if (!response.ok) {
@@ -108,8 +108,9 @@ function ApiEditor({ type, apiId, onSave, apiKey }: ApiEditorProps) {
     setApiData(prevData => ({ ...prevData, resBody: body }));
   };
 
+
   if (loading) {
-    return <CircularProgress />;
+    return <div className='flex justify-center items-center h-screen'><CircularProgress /></div>;
   }
 
   return (
@@ -180,7 +181,7 @@ function ApiEditor({ type, apiId, onSave, apiKey }: ApiEditorProps) {
         </Fade>
       </Box>
       <Typography variant="h6">响应数据</Typography>
-      <JsonEditor onChange={handleResBodyUpdate} initData={apiData.resBody} />
+      <JsonEditor onChange={handleResBodyUpdate} initData={apiData.resBody} type={type} />
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
         <Button variant="contained" type="submit">保存</Button>
       </Box>

@@ -49,7 +49,7 @@ export default function Dashboard() {
     try {
       const response = await fetch('/api/list', {
         headers: {
-          'Mock-Server-Key': apiKey
+          'Faker-Server-Key': apiKey
         }
       });
       if (response.status === 401) {
@@ -88,7 +88,7 @@ export default function Dashboard() {
         method,
         headers: {
           'Content-Type': 'application/json',
-          'Mock-Server-Key': apiKey
+          'Faker-Server-Key': apiKey
         },
         body,
       });
@@ -116,7 +116,7 @@ export default function Dashboard() {
   const handleDelete = async (id: string) => {
     try {
       const response = await fetch(`/api/delete/${id}`, { method: 'DELETE', headers: {
-        'Mock-Server-Key': apiKey
+        'Faker-Server-Key': apiKey
       } });
       if (!response.ok) {
         throw new Error('删除 API 失败');
@@ -195,6 +195,10 @@ export default function Dashboard() {
             startIcon={<AddIcon />}
             fullWidth
             size="small"
+            onClick={() => {
+              setSelectedApiId(null);
+              setType('create');
+            }}
           >
             新增接口
           </Button>
@@ -209,12 +213,12 @@ export default function Dashboard() {
         />
       </Box>
       <Dialog open={openKeyDialog} onClose={() => setOpenKeyDialog(false)}>
-        <DialogTitle>输入 API 密钥</DialogTitle>
+        <DialogTitle>输入 Admin 密钥</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
             margin="dense"
-            label="API 密钥"
+            label="Admin 密钥"
             type="password"
             fullWidth
             variant="outlined"

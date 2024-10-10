@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useImperativeHandle } from 'react';
 import { SimpleTreeView, TreeItem } from '@mui/x-tree-view';
 import { TextField, Select, MenuItem, Grid2, IconButton } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -12,6 +12,7 @@ interface JsonNode {
   children?: JsonNode[];
   options?: string[];
   length?: number;
+  value?: string;
 }
 
 const typeOptions = ['string', 'number', 'boolean', 'array', 'object', 'null', 'any'];
@@ -19,13 +20,22 @@ const typeOptions = ['string', 'number', 'boolean', 'array', 'object', 'null', '
 interface JsonEditorProps {
   onChange: (val: unknown) => void;
   initData?: unknown;
+  type: 'create' | 'update';
 }
 
-const JsonEditor: React.FC<JsonEditorProps> = ({ onChange, initData }) => {
+const JsonEditor: React.FC<JsonEditorProps> = ({ onChange, initData, type }) => {
   const [data, setData] = useState<JsonNode[]>(initData as JsonNode[] || [
-    { key: 'root', type: 'object', mock: '', children: [], options: ['object', 'array'], length: 1 }
+    { key: 'root', type: 'object', mock: '', children: [], options: ['object', 'array'], length: 1, value: '' }
   ]);
 
+  function clearValue() {
+    setData([{ key: 'root', type: 'object', mock: '', children: [], options: ['object', 'array'], length: 1, value: '' }]);
+  }
+  useEffect(() => {
+    if (type === 'create') {
+      clearValue();
+    }
+  }, [type]);
   // 生成所有节点的 ID 数组
   const allNodeIds = useMemo(() => {
     const ids: string[] = [];
@@ -90,12 +100,24 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ onChange, initData }) => {
                 </Select>
               </Grid2>
               {node.type && !['object', 'null', 'array'].includes(node.type) && (
-                <Grid2 width={200}>
-                  <FakerSelect
-                    value={node.mock}
-                    onChange={(value) => handleChange(node, 'mock', value)}
-                  />
-                </Grid2>
+                <>
+                  <Grid2 width={200}>
+                    <FakerSelect
+                      value={node.mock}
+                      onChange={(value) => handleChange(node, 'mock', value)}
+                    />
+                  </Grid2>
+                  <Grid2 width={200}>
+                    <TextField
+                      size="small"
+                      value={node.value || ''}
+                      onChange={(e) => handleChange(node, 'value', e.target.value)}
+                      onFocus={(e) => e.stopPropagation()}
+                      onClick={(e) => e.stopPropagation()}
+                      label="特定值"
+                    />
+                  </Grid2>
+                </>
               )}
               {node.type === 'object' && (
                 <Grid2>
@@ -147,12 +169,15 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ onChange, initData }) => {
                 break;
               case 'string':
                 updatedNode.mock = 'string.alphanumeric';
+                updatedNode.value = ''; // 重置 value
                 break;
               case 'number':
                 updatedNode.mock = 'number.int';
+                updatedNode.value = ''; // 重置 value
                 break;
               case 'boolean':
                 updatedNode.mock = 'boolean.true';
+                updatedNode.value = ''; // 重置 value
                 break;
             }
           }
@@ -186,19 +211,23 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ onChange, initData }) => {
   };
 
   const deleteNode = (nodeToDelete: JsonNode, parentId: string) => {
-    const updateNode = (nodes: JsonNode[]): JsonNode[] => {
-      if (parentId === '') {
+    const updateNode = (nodes: JsonNode[], path: number[]): JsonNode[] => {
+      if (path.length === 0) {
         return nodes.filter(n => n !== nodeToDelete);
       }
-      return nodes.map((n) => {
-        if (n.children) {
-          return { ...n, children: n.children.filter(child => child !== nodeToDelete) };
+      const [currentIndex, ...restPath] = path;
+      return nodes.map((n, index) => {
+        if (index === currentIndex) {
+          if (n.children) {
+            return { ...n, children: updateNode(n.children, restPath) };
+          }
         }
         return n;
       });
     };
 
-    setData(prevData => updateNode(prevData));
+    const path = parentId.split('-').map(Number);
+    setData(prevData => updateNode(prevData, path));
   };
 
   // 添加这个辅助函数来根据路径获取节点

@@ -6,10 +6,33 @@ interface JsonNode {
   mock: string;
   children?: JsonNode[];
   length?: number;
+  value?: string;
 }
 
 function processResBody(body: JsonNode[]): any {
   function processNode(node: JsonNode): any {
+    if (node.value !== undefined && node.value.trim() !== '') {
+      // 如果设置了非空的特定值,根据类型进行转换
+      switch (node.type) {
+        case 'number':
+          return Number(node.value);
+        case 'boolean':
+          return node.value.toLowerCase() === 'true';
+        case 'null':
+          return null;
+        case 'object':
+        case 'array':
+          try {
+            return JSON.parse(node.value);
+          } catch {
+            console.warn(`无法解析 ${node.key} 的值为 ${node.type}，使用原始字符串`);
+            return node.value;
+          }
+        default:
+          return node.value;
+      }
+    }
+
     switch (node.type) {
       case 'object':
         const obj: { [key: string]: any } = {};
