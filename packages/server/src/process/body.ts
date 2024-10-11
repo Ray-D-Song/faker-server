@@ -7,6 +7,8 @@ interface JsonNode {
   children?: JsonNode[];
   length?: number;
   value?: string;
+  min?: string;  // 新增
+  max?: string;  // 新增
 }
 
 function processResBody(body: JsonNode[]): any {
@@ -47,8 +49,12 @@ function processResBody(body: JsonNode[]): any {
           arr.push(processNode(node.children?.[0] || { key: 'item', type: 'string', mock: 'string.alphanumeric' }));
         }
         return arr;
-      case 'string':
       case 'number':
+        let options: FakeOptions = {};
+        if (node.min) options.min = Number(node.min);
+        if (node.max) options.max = Number(node.max);
+        return fake(node.mock, options);
+      case 'string':
       case 'boolean':
         return fake(node.mock);
       case 'null':
@@ -63,13 +69,23 @@ function processResBody(body: JsonNode[]): any {
   return processNode(body[0]);
 }
 
-function fake(key: string) {
+interface FakeOptions {
+  min?: number;
+  max?: number;
+}
+
+function fake(key: string, options?: FakeOptions) {
   const parts = key.split('.')
   let currentObject: any = faker
 
   for (const part of parts) {
     if (typeof currentObject[part] === 'function') {
-      const result = currentObject[part]()
+      let result: any;
+      if (options) {
+        result = currentObject[part](options)
+      } else {
+        result = currentObject[part]()
+      }
       // 检查结果是否为 BigInt,如果是则转换为字符串
       return typeof result === 'bigint' ? result.toString() : result
     } else if (currentObject[part] !== undefined) {

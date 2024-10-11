@@ -1,6 +1,6 @@
 {
   "name": "@ray-d-song/faker-server",
-  "version": "0.1.0-alpha.7",
+  "version": "0.1.0-alpha.9",
   "description": "Faker.js mock server",
   "bin": {
     "faker-server": "dist/index.cjs"

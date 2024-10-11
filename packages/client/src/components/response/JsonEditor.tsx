@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo, useImperativeHandle } from 'react';
 import { SimpleTreeView, TreeItem } from '@mui/x-tree-view';
-import { TextField, Select, MenuItem, Grid2, IconButton } from '@mui/material';
+import { TextField, Select, MenuItem, Grid2, IconButton, InputAdornment } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import FakerSelect from '../FakerSelect';
@@ -13,6 +13,8 @@ interface JsonNode {
   options?: string[];
   length?: number;
   value?: string;
+  min?: number;  // 新增
+  max?: number;  // 新增
 }
 
 const typeOptions = ['string', 'number', 'boolean', 'array', 'object', 'null', 'any'];
@@ -117,6 +119,40 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ onChange, initData, type }) => 
                       label="特定值"
                     />
                   </Grid2>
+                  {node.type === 'number' && (
+                    <>
+                      <Grid2 width={120}>
+                        <TextField
+                          size="small"
+                          type="number"
+                          value={node.min || ''}
+                          onChange={(e) => handleChange(node, 'min', e.target.value)}
+                          onFocus={(e) => e.stopPropagation()}
+                          onClick={(e) => e.stopPropagation()}
+                          slotProps={{
+                            input: {
+                              endAdornment: <InputAdornment position="end">min</InputAdornment>,
+                            }
+                          }}
+                        />
+                      </Grid2>
+                      <Grid2 width={120}>
+                        <TextField
+                          size="small"
+                          type="number"
+                          value={node.max || ''}
+                          onChange={(e) => handleChange(node, 'max', e.target.value)}
+                          onFocus={(e) => e.stopPropagation()}
+                          onClick={(e) => e.stopPropagation()}
+                          slotProps={{
+                            input: {
+                              endAdornment: <InputAdornment position="end">max</InputAdornment>,
+                            }
+                          }}
+                        />
+                      </Grid2>
+                    </>
+                  )}
                 </>
               )}
               {node.type === 'object' && (
