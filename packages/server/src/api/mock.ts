@@ -50,7 +50,7 @@ mockApp.all('/*', async c => {
 
     return c.body(null)
   } catch (error) {
-    console.error('Database error:', error)
+    console.error('error:', error)
     return c.json({ error: 'Internal Server Error' }, 500)
   }
 })

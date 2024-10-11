@@ -94,7 +94,12 @@ export default function Dashboard() {
       });
 
       if (!response.ok) {
-        throw new Error('保存失败');
+        switch (response.status) {
+          case 400:
+            throw new Error('API 路径和方法必须唯一');
+          default:
+            throw new Error('保存失败');
+        }
       }
 
       setRefetch(prev => !prev)
@@ -108,8 +113,12 @@ export default function Dashboard() {
       setType('create');
       fetchApis(); // 重新获取列表以确保数据同步
     } catch (error) {
-      console.error('保存 API 时出错:', error);
-      toast.error('保存 API 失败');
+      console.error(error);
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error('保存失败');
+      }
     }
   };
 

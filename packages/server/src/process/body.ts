@@ -69,15 +69,17 @@ function fake(key: string) {
 
   for (const part of parts) {
     if (typeof currentObject[part] === 'function') {
-      return currentObject[part]()
+      const result = currentObject[part]()
+      // 检查结果是否为 BigInt,如果是则转换为字符串
+      return typeof result === 'bigint' ? result.toString() : result
     } else if (currentObject[part] !== undefined) {
       currentObject = currentObject[part]
     } else {
-      throw new Error(`Generate mock data failed: ${key}`)
+      throw new Error(`生成模拟数据失败: ${key}`)
     }
   }
 
-  throw new Error(`Generate mock data failed: ${key}`)
+  throw new Error(`生成模拟数据失败: ${key}`)
 }
 
 export {

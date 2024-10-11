@@ -161,7 +161,7 @@ function ApiEditor({ type, apiId, onSave, apiKey }: ApiEditorProps) {
         multiline
         rows={4}
       />
-      <Typography variant="h6">请求参数</Typography>
+      {/* <Typography variant="h6">请求参数</Typography>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={activeTab} onChange={handleTabChange} aria-label="请求参数标签页">
           <Tab label="Query" />
@@ -179,11 +179,11 @@ function ApiEditor({ type, apiId, onSave, apiKey }: ApiEditorProps) {
             <HeadersGrid onUpdate={handleHeadersUpdate} />
           </Card>
         </Fade>
-      </Box>
+      </Box> */}
       <Typography variant="h6">响应数据</Typography>
       <JsonEditor onChange={handleResBodyUpdate} initData={apiData.resBody} type={type} />
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
-        <Button variant="contained" type="submit">保存</Button>
+        <Button variant="contained" type="submit">{type === 'update' ? '修改' : '新增'}</Button>
       </Box>
     </Box>
   );
