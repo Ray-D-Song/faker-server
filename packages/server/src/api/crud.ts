@@ -11,6 +11,14 @@ crudApp.post('/create', async c => {
   const collection = db.collection<Api>('apis')
 
   try {
+    // check if the path and method is already exists
+    const existingApi = await collection.findOne({
+      path: formatPath(api.path),
+      method: api.method
+    })
+    if (existingApi) {
+      return c.json({ error: 'API already exists' }, 400)
+    }
     const result = await collection.insertOne({
       ...api,
       path: formatPath(api.path),
@@ -41,6 +49,17 @@ crudApp.post('/update', async c => {
 
   try {
     const id = new ObjectId(api._id)
+    // check if the path and method is already exists, except only one api
+    const existingApis = await collection.find({
+      path: formatPath(api.path),
+      method: api.method,
+    }).toArray()
+    if (existingApis.length > 1) {
+      return c.json({ error: 'API path and method must be unique' }, 400)
+    }
+    if (existingApis.length === 1 && existingApis[0]._id.toString() !== id.toString()) {
+      return c.json({ error: 'API path and method must be unique' }, 400)
+    }
     delete api._id
     const result = await collection.updateOne(
       { _id: id },
