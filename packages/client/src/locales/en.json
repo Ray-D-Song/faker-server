@@ -1,0 +1,41 @@
+{
+  "global": {
+    "cancel": "Cancel",
+    "confirm": "Confirm"
+  },
+  "dashboard": {
+    "api-list": "API List",
+    "create-api": "Create API",
+    "input-admin-key": "Input Admin Key",
+    "admin-key": "Admin Key"
+  },
+  "faker-select": {
+    "label": "Select Faker Method"
+  },
+  "api-editor": {
+    "update": "Update API",
+    "create": "Create API",
+    "api-name": "API Name",
+    "api-path": "API Path",
+    "request-method": "Request Method",
+    "api-description": "API Description",
+    "response-data": "Response Data"
+  },
+  "json-editor": {
+    "optional-value": "Optional value list, separated by ^",
+    "array-length": "Array length"
+  },
+  "error": {
+    "get-api-detail": "Failed to get API detail",
+    "get-api-list": "Failed to get API list",
+    "save-api": "Failed to save API",
+    "delete-api": "Failed to delete API",
+    "api-path-and-method-unique": "API path and method must be unique",
+    "network": "Network error",
+    "unknown": "Unknown error"
+  },
+  "success": {
+    "api-update": "API updated successfully",
+    "api-create": "API created successfully"
+  }
+}

@@ -1,11 +1,13 @@
-import { Box, Drawer, List, ListItem, ListItemText, Toolbar, Chip, Typography, Button, IconButton } from '@mui/material';
+import { Box, Drawer, List, ListItem, ListItemText, Toolbar, Chip, Typography, Button, IconButton, AppBar } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useState, useEffect } from 'react';
 import { toast } from 'react-hot-toast';
 import ApiEditor, { ApiData } from './components/ApiEditor';
-import { Toaster } from 'react-hot-toast';
 import { Dialog, DialogTitle, DialogContent, DialogActions, TextField } from '@mui/material';
+import { useTranslation } from 'react-i18next';
+import TranslateIcon from '@mui/icons-material/Translate';
+import GitHubIcon from '@mui/icons-material/GitHub';
 
 interface ApiListItem {
   _id: string;
@@ -30,6 +32,7 @@ const getMethodColor = (method: string) => {
 };
 
 export default function Dashboard() {
+  const { t, i18n } = useTranslation()
   const [apis, setApis] = useState<ApiListItem[]>([]);
   const [selectedApiId, setSelectedApiId] = useState<string | null>(null);
   const [type, setType] = useState<'create' | 'update'>('create');
@@ -57,13 +60,13 @@ export default function Dashboard() {
         return;
       }
       if (!response.ok) {
-        throw new Error('获取 API 列表失败');
+        throw new Error(t('error.get-api-list'));
       }
       const data = await response.json();
       setApis(data);
     } catch (error) {
-      console.error('获取 API 列表时出错:', error);
-      toast.error('获取 API 列表失败');
+      console.error(error);
+      toast.error(t('error.get-api-list'));
     }
   };
 
@@ -96,28 +99,28 @@ export default function Dashboard() {
       if (!response.ok) {
         switch (response.status) {
           case 400:
-            throw new Error('API 路径和方法必须唯一');
+            throw new Error(t('error.api-path-and-method-unique'));
           default:
-            throw new Error('保存失败');
+            throw new Error(t('error.save-api'));
         }
       }
 
       setRefetch(prev => !prev)
       if (api._id) {
-        toast.success('API 更新成功');
+        toast.success(t('success.api-update'));
       } else {
-        toast.success('API 创建成功');
+        toast.success(t('success.api-create'));
       }
 
       setSelectedApiId(null);
       setType('create');
-      fetchApis(); // 重新获取列表以确保数据同步
+      fetchApis()
     } catch (error) {
       console.error(error);
       if (error instanceof Error) {
         toast.error(error.message);
       } else {
-        toast.error('保存失败');
+        toast.error(t('error.save-api'));
       }
     }
   };
@@ -128,106 +131,120 @@ export default function Dashboard() {
         'Faker-Server-Key': apiKey
       } });
       if (!response.ok) {
-        throw new Error('删除 API 失败');
+        throw new Error(t('error.delete-api'));
       }
       setApis(prevApis => prevApis.filter(api => api._id !== id));
-      toast.success('API 删除成功');
+      toast.success(t('success.api-delete'));
     } catch (error) {
-      console.error('删除 API 时出错:', error);
-      toast.error('删除 API 失败');
+      console.error(error);
+      toast.error(t('error.delete-api'));
     }
   };
 
+  const toggleLanguage = () => {
+    const newLang = i18n.language === 'en' ? 'zh' : 'en';
+    i18n.changeLanguage(newLang);
+  };
+
   return (
-    <Box sx={{ display: 'flex' }}>
-      <Toaster position='top-center'/>
-      <Drawer
-        variant="permanent"
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
+    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
+      <Box sx={{ display: 'flex', flexGrow: 1, overflow: 'hidden' }}>
+        <Drawer
+          variant="permanent"
+          sx={{
             width: drawerWidth,
-            boxSizing: 'border-box',
-          },
-        }}
-      >
-        <Toolbar />
-        <Typography variant="h6" sx={{ p: 2, fontWeight: 'bold' }}>
-          接口列表
-        </Typography>
-        <List dense className='overflow-x-hidden'>
-          {apis.map((api) => (
-            <ListItem 
-              key={api._id} 
-              onClick={() => handleApiSelect(api._id)}
-              sx={{ 
-                py: 0.5,
-                transition: 'all 0.2s',
-                '&:hover': {
-                  backgroundColor: 'action.hover',
-                  transform: 'translateX(5px)',
-                },
-                '&:active': {
-                  backgroundColor: 'action.selected',
-                },
-              }} 
-              className='cursor-pointer'
-            >
-              <ListItemText 
-                primary={api.name} 
-                secondary={`${api.method} ${api.path}`}
-                primaryTypographyProps={{ fontSize: '0.9rem' }}
-              />
-              <Chip 
-                label={api.method} 
-                color={getMethodColor(api.method)}
-                size="small"
-                sx={{ fontSize: '0.7rem', height: 20, mr: 1 }}
-              />
-              <IconButton 
-                size="small" 
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleDelete(api._id);
-                }}
-                sx={{ p: 0.5 }}
+            flexShrink: 0,
+            '& .MuiDrawer-paper': {
+              width: drawerWidth,
+              boxSizing: 'border-box',
+            },
+          }}
+        >
+          <Toolbar />
+          <Typography variant="h6" sx={{ p: 2, fontWeight: 'bold' }}>
+            {t('dashboard.api-list')}
+          </Typography>
+          <List dense className='overflow-x-hidden'>
+            {apis.map((api) => (
+              <ListItem 
+                key={api._id} 
+                onClick={() => handleApiSelect(api._id)}
+                sx={{ 
+                  py: 0.5,
+                  transition: 'all 0.2s',
+                  '&:hover': {
+                    backgroundColor: 'action.hover',
+                    transform: 'translateX(5px)',
+                  },
+                  '&:active': {
+                    backgroundColor: 'action.selected',
+                  },
+                }} 
+                className='cursor-pointer'
               >
-                <DeleteIcon fontSize="small" />
-              </IconButton>
-            </ListItem>
-          ))}
-        </List>
-        <Box sx={{ p: 2, mt: 'auto' }}>
-          <Button
-            variant="contained"
-            startIcon={<AddIcon />}
-            fullWidth
-            size="small"
-            onClick={() => {
-              setSelectedApiId(null);
-              setType('create');
-            }}
-          >
-            新增接口
-          </Button>
+                <ListItemText 
+                  primary={api.name} 
+                  secondary={`${api.method} ${api.path}`}
+                  primaryTypographyProps={{ fontSize: '0.9rem' }}
+                />
+                <Chip 
+                  label={api.method} 
+                  color={getMethodColor(api.method)}
+                  size="small"
+                  sx={{ fontSize: '0.7rem', height: 20, mr: 1 }}
+                />
+                <IconButton 
+                  size="small" 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDelete(api._id);
+                  }}
+                  sx={{ p: 0.5 }}
+                >
+                  <DeleteIcon fontSize="small" />
+                </IconButton>
+              </ListItem>
+            ))}
+          </List>
+          <Box sx={{ p: 2, mt: 'auto' }}>
+            <Button
+              variant="contained"
+              startIcon={<AddIcon />}
+              fullWidth
+              size="small"
+              onClick={() => {
+                setSelectedApiId(null);
+                setType('create');
+              }}
+            >
+              {t('dashboard.create-api')}
+            </Button>
+          </Box>
+        </Drawer>
+        <Box component="main" sx={{ flexGrow: 1, p: 3, pt: 1, overflow: 'auto' }}>
+          <div className='w-full h-8 mb-4 z-10 flex items-center justify-end'>
+            <IconButton onClick={toggleLanguage} color="inherit">
+              <TranslateIcon />
+            </IconButton>
+            <IconButton href="https://github.com/ray-d-song/faker-server" target="_blank" rel="noopener noreferrer" color="inherit">
+              <GitHubIcon />
+            </IconButton>
+          </div>
+          <ApiEditor 
+            type={type} 
+            onSave={handleSave} 
+            apiId={selectedApiId}
+            apiKey={apiKey}
+          />
         </Box>
-      </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <ApiEditor 
-          type={type} 
-          onSave={handleSave} 
-          apiId={selectedApiId}
-          apiKey={apiKey}
-        />
       </Box>
       <Dialog open={openKeyDialog} onClose={() => setOpenKeyDialog(false)}>
-        <DialogTitle>输入 Admin 密钥</DialogTitle>
+        <DialogTitle>{t('dashboard.input-admin-key')}</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
             margin="dense"
-            label="Admin 密钥"
+            label={t('dashboard.admin-key')}
             type="password"
             fullWidth
             variant="outlined"
@@ -236,8 +253,8 @@ export default function Dashboard() {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpenKeyDialog(false)}>取消</Button>
-          <Button onClick={handleKeySubmit}>确认</Button>
+          <Button onClick={() => setOpenKeyDialog(false)}>{t('global.cancel')}</Button>
+          <Button onClick={handleKeySubmit}>{t('global.confirm')}</Button>
         </DialogActions>
       </Dialog>
     </Box>

@@ -1,4 +1,4 @@
-import React, { useState, memo } from 'react';
+import React, { useEffect, useState, useMemo, memo } from 'react';
 import { SimpleTreeView, TreeItem } from '@mui/x-tree-view';
 import { TextField, Select, MenuItem, Grid2, IconButton, InputAdornment } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -21,12 +21,29 @@ export interface JsonNode {
 const typeOptions = ['string', 'number', 'boolean', 'array', 'object', 'null', 'any'];
 
 interface JsonEditorProps {
-  onChange: (val: JsonNode[]) => void;
-  data: JsonNode[];
+  onChange: (val: unknown) => void;
+  initData?: unknown;
+  type: 'create' | 'update';
 }
 
-const JsonEditor: React.FC<JsonEditorProps> = ({ onChange, data }) => {
+const JsonEditor: React.FC<JsonEditorProps> = ({ onChange, initData, type }) => {
   const { t, i18n } = useTranslation()
+  const [data, setData] = useState<JsonNode[]>(initData as JsonNode[] || [
+    { key: 'root', type: 'object', mock: '', children: [], options: ['object', 'array'], length: 1, value: '' }
+  ]);
+
+  function clearValue() {
+    setData([{ key: 'root', type: 'object', mock: '', children: [], options: ['object', 'array'], length: 1, value: '' }]);
+  }
+  useEffect(() => {
+    if (type === 'create') {
+      clearValue();
+    }
+  }, [type]);
+
+  useEffect(() => {
+    onChange(data)
+  }, [data])
 
   const renderTree = (nodes: JsonNode[], parentId = '') => {
     return nodes.map((node, index) => {
@@ -196,7 +213,7 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ onChange, data }) => {
       });
     };
 
-    onChange(updateNode(data));
+    setData(updateNode(data));
   };
 
   const addChild = (parent: JsonNode) => {
@@ -213,7 +230,7 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ onChange, data }) => {
       });
     };
 
-    onChange(updateNode(data));
+    setData(updateNode(data));
   };
 
   const deleteNode = (nodeToDelete: JsonNode, parentId: string) => {
@@ -233,7 +250,7 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ onChange, data }) => {
     };
 
     const path = parentId.split('-').map(Number);
-    onChange(updateNode(data, path));
+    setData(prevData => updateNode(prevData, path));
   };
 
   // add this helper function to get node by path

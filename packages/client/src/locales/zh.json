@@ -1,0 +1,41 @@
+{
+  "global": {
+    "cancel": "取消",
+    "confirm": "确认"
+  },
+  "dashboard": {
+    "api-list": "接口列表",
+    "create-api": "新增接口",
+    "input-admin-key": "输入 Admin 密钥",
+    "admin-key": "Admin 密钥"
+  },
+  "faker-select": {
+    "label": "选择 Faker 方法"
+  },
+  "api-editor": {
+    "update": "修改接口",
+    "create": "新增接口",
+    "api-name": "接口名",
+    "api-path": "接口地址",
+    "request-method": "请求方法",
+    "api-description": "接口描述",
+    "response-data": "响应数据"
+  },
+  "json-editor": {
+    "optional-value": "可选值列表,使用^分割",
+    "array-length": "数组长度"
+  },
+  "error": {
+    "get-api-detail": "获取 API 详情失败",
+    "get-api-list": "获取 API 列表失败",
+    "save-api": "保存失败",
+    "delete-api": "删除失败",
+    "api-path-and-method-unique": "API 路径和方法必须唯一",
+    "network": "网络错误",
+    "unknown": "未知错误"
+  },
+  "success": {
+    "api-update": "API 更新成功",
+    "api-create": "API 创建成功"
+  }
+}

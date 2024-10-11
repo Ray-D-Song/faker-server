@@ -1,14 +1,15 @@
 import React from 'react';
 import { Select, MenuItem, ListSubheader, SelectChangeEvent, FormControl, InputLabel } from '@mui/material';
 import fakerData from '../assets/faker.json'
-
+import { useTranslation } from 'react-i18next'
 interface FakerSelectProps {
   value: string;
   onChange: (value: string) => void;
   label?: string;
 }
 
-const FakerSelect: React.FC<FakerSelectProps> = ({ value, onChange, label = '选择 Faker 方法' }) => {
+const FakerSelect: React.FC<FakerSelectProps> = ({ value, onChange }) => {
+  const { t, i18n } = useTranslation()
   const handleChange = (event: SelectChangeEvent<string>) => {
     onChange(event.target.value);
   };
@@ -23,12 +24,12 @@ const FakerSelect: React.FC<FakerSelectProps> = ({ value, onChange, label = '选
           },
         }}
       >
-        {label}
+        {t('faker-select.label')}
       </InputLabel>
       <Select
         value={value}
         onChange={handleChange}
-        label={label}
+        label={t('faker-select.label')}
         size='small'
         fullWidth
         sx={{
@@ -39,7 +40,7 @@ const FakerSelect: React.FC<FakerSelectProps> = ({ value, onChange, label = '选
         MenuProps={{
           PaperProps: {
             style: {
-              maxHeight: 300, // 设置下拉菜单的最大高度
+              maxHeight: 300,
             },
           },
         }}
@@ -52,14 +53,14 @@ const FakerSelect: React.FC<FakerSelectProps> = ({ value, onChange, label = '选
               value={`${group}.${item.key}`}
               sx={{
                 fontSize: '14px',
-                height: '30px', // 设置每个选项的高度
-                minHeight: '30px', // 确保最小高度也是30px
+                height: '30px',
+                minHeight: '30px',
                 '&:hover': {
-                  backgroundColor: 'rgba(0, 0, 0, 0.04)', // 可选：自定义悬停效果
+                  backgroundColor: 'rgba(0, 0, 0, 0.04)',
                 },
               }}
             >
-              {item.zhCN}
+              {i18n.language === 'en' ? item.key : item.zhCN}
             </MenuItem>
           ))
         ])}

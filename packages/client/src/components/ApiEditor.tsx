@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Typography, TextField, Button, Box, CircularProgress, Select, MenuItem, FormControl, InputLabel, Tabs, Tab, SelectChangeEvent, Card } from '@mui/material';
-import { Fade } from '@mui/material'; // 添加 Fade 组件
-import QueryGrid from './request/QueryGrid';
-import HeadersGrid from './request/HeadersGrid';
-import JsonEditor from './response/JsonEditor';
+import { Typography, TextField, Button, Box, CircularProgress, Select, MenuItem, FormControl, InputLabel, SelectChangeEvent } from '@mui/material';
+import JsonEditor, { JsonNode } from './response/JsonEditor';
 import { toast } from 'react-hot-toast';
+import i18n from '../utils/i18n';
+import { useTranslation } from 'react-i18next';
 
 interface ApiEditorProps {
   type: 'update' | 'create';
@@ -39,10 +38,13 @@ function ApiEditor({ type, apiId, onSave, apiKey }: ApiEditorProps) {
     reqHeaders: '',
     resHeaders: '',
     resResponseType: 'json',
-    resBody: undefined,
+    resBody: [
+      { key: 'root', type: 'object', mock: '', children: [], options: ['object', 'array'], length: 1, value: '' }
+    ],
   });
   const [activeTab, setActiveTab] = useState(0);
 
+  const { t } = useTranslation()
   useEffect(() => {
     if (type === 'update' && apiId) {
       fetchApiDetail(apiId);
@@ -56,7 +58,9 @@ function ApiEditor({ type, apiId, onSave, apiKey }: ApiEditorProps) {
         reqHeaders: '',
         resHeaders: '',
         resResponseType: 'json',
-        resBody: {},
+        resBody: [
+          { key: 'root', type: 'object', mock: '', children: [], options: ['object', 'array'], length: 1, value: '' }
+        ],
       });
     }
   }, [type, apiId]);
@@ -70,13 +74,13 @@ function ApiEditor({ type, apiId, onSave, apiKey }: ApiEditorProps) {
         }
       });
       if (!response.ok) {
-        throw new Error('获取 API 详情失败');
+        throw new Error(i18n.t('error.network'));
       }
       const data = await response.json();
       setApiData(data);
     } catch (error) {
-      console.error('获取 API 详情时出错:', error);
-      toast.error('获取 API 详情失败');
+      console.error(error);
+      toast.error(i18n.t('error.get-api-detail'));
     } finally {
       setLoading(false);
     }
@@ -104,7 +108,7 @@ function ApiEditor({ type, apiId, onSave, apiKey }: ApiEditorProps) {
     setApiData(prevData => ({ ...prevData, reqHeaders: headers }));
   };
 
-  const handleResBodyUpdate = (body: unknown) => {
+  const handleResBodyUpdate = (body: JsonNode[]) => {
     setApiData(prevData => ({ ...prevData, resBody: body }));
   };
 
@@ -115,11 +119,11 @@ function ApiEditor({ type, apiId, onSave, apiKey }: ApiEditorProps) {
 
   return (
     <Box component="form" onSubmit={handleSubmit} sx={{ '& > :not(style)': { m: 1 } }}>
-      <Typography variant="h6">{type === 'update' ? '修改接口' : '新增接口'}</Typography>
+      <Typography variant="h6">{t(`api-editor.${type}`)}</Typography>
       <TextField
         size='small'
         fullWidth
-        label="接口名"
+        label={t('api-editor.api-name')}
         name="name"
         value={apiData.name}
         onChange={handleInputChange}
@@ -128,21 +132,21 @@ function ApiEditor({ type, apiId, onSave, apiKey }: ApiEditorProps) {
       <TextField
         size='small'
         fullWidth
-        label="接口地址"
+        label={t('api-editor.api-path')}
         name="path"
         value={apiData.path}
         onChange={handleInputChange}
         required
       />
       <FormControl fullWidth>
-        <InputLabel id="method-select-label">请求方法</InputLabel>
+        <InputLabel id="method-select-label">{t('api-editor.request-method')}</InputLabel>
         <Select
           size='small'
           labelId="method-select-label"
           id="method-select"
           name="method"
           value={apiData.method}
-          label="请求方法"
+          label={t('api-editor.request-method')}
           onChange={(event: SelectChangeEvent<string>) => handleInputChange(event as React.ChangeEvent<HTMLInputElement | { name?: string; value: unknown }>)}
           required
         >
@@ -154,7 +158,7 @@ function ApiEditor({ type, apiId, onSave, apiKey }: ApiEditorProps) {
       <TextField
         size='small'
         className='w-1/2'
-        label="接口描述"
+        label={t('api-editor.api-description')}
         name="description"
         value={apiData.description}
         onChange={handleInputChange}
@@ -180,10 +184,10 @@ function ApiEditor({ type, apiId, onSave, apiKey }: ApiEditorProps) {
           </Card>
         </Fade>
       </Box> */}
-      <Typography variant="h6">响应数据</Typography>
-      <JsonEditor onChange={handleResBodyUpdate} initData={apiData.resBody} type={type} />
+      <Typography variant="h6">{t('api-editor.response-data')}</Typography>
+      <JsonEditor onChange={handleResBodyUpdate} data={apiData.resBody as JsonNode[]} />
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
-        <Button variant="contained" type="submit">{type === 'update' ? '修改' : '新增'}</Button>
+        <Button variant="contained" type="submit">{t(`api-editor.${type === 'update' ? 'update' : 'create'}`)}</Button>
       </Box>
     </Box>
   );

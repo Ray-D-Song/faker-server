@@ -6,6 +6,7 @@ import { serveStatic } from '@hono/node-server/serve-static'
 import fs from 'fs'
 import os from 'os'
 import { logger } from 'hono/logger'
+import { cors } from 'hono/cors'
 
 const homeDir = os.homedir()
 const configDir = path.join(homeDir, '.faker-server')
@@ -48,6 +49,8 @@ app.use(logger())
 app.get('/static/*', serveStatic({
   root: path.relative(process.cwd(), __dirname)
 }))
+
+app.use('*', cors())
 
 serve({
   ...app,

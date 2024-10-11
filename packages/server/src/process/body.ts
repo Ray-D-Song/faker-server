@@ -7,31 +7,35 @@ interface JsonNode {
   children?: JsonNode[];
   length?: number;
   value?: string;
-  min?: string;  // 新增
-  max?: string;  // 新增
+  min?: string;
+  max?: string;
 }
 
 function processResBody(body: JsonNode[]): any {
   function processNode(node: JsonNode): any {
     if (node.value !== undefined && node.value.trim() !== '') {
-      // 如果设置了非空的特定值,根据类型进行转换
+      // 如果设置了非空的特定值，将其分割成可选值数组
+      const options = node.value.split('^').map(v => v.trim());
+      const selectedValue = options[Math.floor(Math.random() * options.length)];
+      
+      // 根据类型进行转换
       switch (node.type) {
         case 'number':
-          return Number(node.value);
+          return Number(selectedValue);
         case 'boolean':
-          return node.value.toLowerCase() === 'true';
+          return selectedValue.toLowerCase() === 'true';
         case 'null':
           return null;
         case 'object':
         case 'array':
           try {
-            return JSON.parse(node.value);
+            return JSON.parse(selectedValue);
           } catch {
             console.warn(`无法解析 ${node.key} 的值为 ${node.type}，使用原始字符串`);
-            return node.value;
+            return selectedValue;
           }
         default:
-          return node.value;
+          return selectedValue;
       }
     }
 
