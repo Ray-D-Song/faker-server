@@ -40,7 +40,7 @@ function ApiEditor({ type, apiId, onSave, apiKey }: ApiEditorProps) {
     resResponseType: 'json',
     resBody: [],
   });
-  const [activeTab, setActiveTab] = useState(0);
+  const [,setActiveTab] = useState(0);
   const resBodyRef = useRef<JsonEditorRef>(null);
 
   const { t } = useTranslation()
@@ -94,21 +94,13 @@ function ApiEditor({ type, apiId, onSave, apiKey }: ApiEditorProps) {
     onSave(apiData);
   };
 
-  const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
-    setActiveTab(newValue);
-  };
+  
 
-  const handleQueryUpdate = (query: unknown) => {
-    setApiData(prevData => ({ ...prevData, reqParams: query }));
-  };
+  
 
-  const handleHeadersUpdate = (headers: unknown) => {
-    setApiData(prevData => ({ ...prevData, reqHeaders: headers }));
-  };
+  
 
-  const handleResBodyUpdate = (body: JsonNode[]) => {
-    setApiData(prevData => ({ ...prevData, resBody: body }));
-  };
+  
 
 
   if (loading) {

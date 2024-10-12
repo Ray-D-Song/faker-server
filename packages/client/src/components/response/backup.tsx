@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, memo } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 import { SimpleTreeView, TreeItem } from '@mui/x-tree-view';
 import { TextField, Select, MenuItem, Grid2, IconButton, InputAdornment } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -27,7 +27,7 @@ interface JsonEditorProps {
 }
 
 const JsonEditor: React.FC<JsonEditorProps> = ({ onChange, initData, type }) => {
-  const { t, i18n } = useTranslation()
+  const { t, } = useTranslation()
   const [data, setData] = useState<JsonNode[]>(initData as JsonNode[] || [
     { key: 'root', type: 'object', mock: '', children: [], options: ['object', 'array'], length: 1, value: '' }
   ]);

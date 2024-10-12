@@ -30,7 +30,7 @@ export interface JsonEditorRef {
 }
 
 const JsonEditor = forwardRef<JsonEditorRef, JsonEditorProps>(({ initData }, ref) => {
-  const { t, i18n } = useTranslation()
+  const { t, } = useTranslation()
   const [data, setData] = useState<JsonNode[]>(initData?.length !== 0 ? initData : [
     { key: 'root', type: 'object', mock: '', children: [], options: ['object', 'array'], length: 1, value: '' }
   ])
