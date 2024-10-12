@@ -1,34 +1,45 @@
-import { useState, useEffect, useRef } from 'react';
-import { Typography, TextField, Button, Box, CircularProgress, Select, MenuItem, FormControl, InputLabel, SelectChangeEvent } from '@mui/material';
-import JsonEditor, {JsonEditorRef, JsonNode } from './response/JsonEditor';
-import { toast } from 'react-hot-toast';
-import i18n from '../utils/i18n';
-import { useTranslation } from 'react-i18next';
+import { useState, useEffect, useRef } from 'react'
+import {
+  Typography,
+  TextField,
+  Button,
+  Box,
+  CircularProgress,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  SelectChangeEvent,
+} from '@mui/material'
+import JsonEditor, { JsonEditorRef, JsonNode } from './response/JsonEditor'
+import { toast } from 'react-hot-toast'
+import i18n from '../utils/i18n'
+import { useTranslation } from 'react-i18next'
 
 interface ApiEditorProps {
-  type: 'update' | 'create';
-  apiId: string | null;
-  onSave: (apiData: ApiData) => void;
-  apiKey: string;
+  type: 'update' | 'create'
+  apiId: string | null
+  onSave: (apiData: ApiData) => void
+  apiKey: string
 }
 
 export interface ApiData {
-  _id?: string;
-  name: string;
-  path: string;
-  method: string;
-  description: string;
-  reqParams: unknown;
-  reqHeaders: unknown;
-  resHeaders: unknown;
-  resResponseType: string;
-  resBody: unknown;
+  _id?: string
+  name: string
+  path: string
+  method: string
+  description: string
+  reqParams: unknown
+  reqHeaders: unknown
+  resHeaders: unknown
+  resResponseType: string
+  resBody: unknown
 }
 
-const HTTP_METHODS = ['GET', 'POST', 'PUT', 'DELETE'];
+const HTTP_METHODS = ['GET', 'POST', 'PUT', 'DELETE']
 
 function ApiEditor({ type, apiId, onSave, apiKey }: ApiEditorProps) {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false)
   const [apiData, setApiData] = useState<ApiData>({
     name: '',
     path: '',
@@ -39,14 +50,14 @@ function ApiEditor({ type, apiId, onSave, apiKey }: ApiEditorProps) {
     resHeaders: '',
     resResponseType: 'json',
     resBody: [],
-  });
-  const [,setActiveTab] = useState(0);
-  const resBodyRef = useRef<JsonEditorRef>(null);
+  })
+  const [] = useState(0)
+  const resBodyRef = useRef<JsonEditorRef>(null)
 
   const { t } = useTranslation()
   useEffect(() => {
     if (type === 'update' && apiId) {
-      fetchApiDetail(apiId);
+      fetchApiDetail(apiId)
     } else {
       setApiData({
         name: '',
@@ -58,60 +69,63 @@ function ApiEditor({ type, apiId, onSave, apiKey }: ApiEditorProps) {
         resHeaders: '',
         resResponseType: 'json',
         resBody: [],
-      });
+      })
     }
-  }, [type, apiId]);
+  }, [type, apiId])
 
   const fetchApiDetail = async (id: string) => {
-    setLoading(true);
+    setLoading(true)
     try {
       const response = await fetch(`/api/detail/${id}`, {
         headers: {
-          'Faker-Server-Key': apiKey
-        }
-      });
+          'Faker-Server-Key': apiKey,
+        },
+      })
       if (!response.ok) {
-        throw new Error(i18n.t('error.network'));
+        throw new Error(i18n.t('error.network'))
       }
-      const data = await response.json();
-      setApiData(data);
+      const data = await response.json()
+      setApiData(data)
     } catch (error) {
-      console.error(error);
-      toast.error(i18n.t('error.get-api-detail'));
+      console.error(error)
+      toast.error(i18n.t('error.get-api-detail'))
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | { name?: string; value: unknown }>) => {
-    const { name, value } = event.target;
-    setApiData(prevData => ({ ...prevData, [name as string]: value }));
-  };
+  const handleInputChange = (
+    event: React.ChangeEvent<
+      HTMLInputElement | { name?: string; value: unknown }
+    >,
+  ) => {
+    const { name, value } = event.target
+    setApiData((prevData) => ({ ...prevData, [name as string]: value }))
+  }
 
   const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-    apiData.resBody = resBodyRef.current?.getData() || [];
-    onSave(apiData);
-  };
-
-  
-
-  
-
-  
-
-  
-
+    event.preventDefault()
+    apiData.resBody = resBodyRef.current?.getData() || []
+    onSave(apiData)
+  }
 
   if (loading) {
-    return <div className='flex justify-center items-center h-screen'><CircularProgress /></div>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <CircularProgress />
+      </div>
+    )
   }
 
   return (
-    <Box component="form" onSubmit={handleSubmit} sx={{ '& > :not(style)': { m: 1 } }}>
+    <Box
+      component="form"
+      onSubmit={handleSubmit}
+      sx={{ '& > :not(style)': { m: 1 } }}
+    >
       <Typography variant="h6">{t(`api-editor.${type}`)}</Typography>
       <TextField
-        size='small'
+        size="small"
         fullWidth
         label={t('api-editor.api-name')}
         name="name"
@@ -120,7 +134,7 @@ function ApiEditor({ type, apiId, onSave, apiKey }: ApiEditorProps) {
         required
       />
       <TextField
-        size='small'
+        size="small"
         fullWidth
         label={t('api-editor.api-path')}
         name="path"
@@ -129,25 +143,35 @@ function ApiEditor({ type, apiId, onSave, apiKey }: ApiEditorProps) {
         required
       />
       <FormControl fullWidth>
-        <InputLabel id="method-select-label">{t('api-editor.request-method')}</InputLabel>
+        <InputLabel id="method-select-label">
+          {t('api-editor.request-method')}
+        </InputLabel>
         <Select
-          size='small'
+          size="small"
           labelId="method-select-label"
           id="method-select"
           name="method"
           value={apiData.method}
           label={t('api-editor.request-method')}
-          onChange={(event: SelectChangeEvent<string>) => handleInputChange(event as React.ChangeEvent<HTMLInputElement | { name?: string; value: unknown }>)}
+          onChange={(event: SelectChangeEvent<string>) =>
+            handleInputChange(
+              event as React.ChangeEvent<
+                HTMLInputElement | { name?: string; value: unknown }
+              >,
+            )
+          }
           required
         >
           {HTTP_METHODS.map((method) => (
-            <MenuItem key={method} value={method}>{method}</MenuItem>
+            <MenuItem key={method} value={method}>
+              {method}
+            </MenuItem>
           ))}
         </Select>
       </FormControl>
       <TextField
-        size='small'
-        className='w-1/2'
+        size="small"
+        className="w-1/2"
         label={t('api-editor.api-description')}
         name="description"
         value={apiData.description}
@@ -177,10 +201,12 @@ function ApiEditor({ type, apiId, onSave, apiKey }: ApiEditorProps) {
       <Typography variant="h6">{t('api-editor.response-data')}</Typography>
       <JsonEditor initData={apiData.resBody as JsonNode[]} ref={resBodyRef} />
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
-        <Button variant="contained" type="submit">{t(`api-editor.${type === 'update' ? 'update' : 'create'}`)}</Button>
+        <Button variant="contained" type="submit">
+          {t(`api-editor.${type === 'update' ? 'update' : 'create'}`)}
+        </Button>
       </Box>
     </Box>
-  );
+  )
 }
 
-export default ApiEditor;
+export default ApiEditor

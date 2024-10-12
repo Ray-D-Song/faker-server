@@ -1,12 +1,11 @@
-import { Hono } from 'hono';
+import { Hono } from 'hono'
 import { Bindings } from '../utils/binding'
-import { formatPath } from '../utils/path';
-import { processResBody } from '../process/body';
+import { formatPath } from '../utils/path'
+import { processResBody } from '../process/body'
 
 const mockApp = new Hono<{ Bindings: Bindings }>()
 
-mockApp.all('/*', async c => {
-
+mockApp.all('/*', async (c) => {
   const path = formatPath(c.req.path.replace('/mock', ''))
   const method = c.req.method.toUpperCase()
 
@@ -17,7 +16,7 @@ mockApp.all('/*', async c => {
     const api = await collection.findOne({
       method,
       path,
-      deleted: { $ne: true }
+      deleted: { $ne: true },
     })
 
     if (!api) {

@@ -1,81 +1,91 @@
 import { faker } from '@faker-js/faker'
 
 interface JsonNode {
-  key: string;
-  type: string;
-  mock: string;
-  children?: JsonNode[];
-  length?: number;
-  value?: string;
-  min?: string;
-  max?: string;
+  key: string
+  type: string
+  mock: string
+  children?: JsonNode[]
+  length?: number
+  value?: string
+  min?: string
+  max?: string
 }
 
 function processResBody(body: JsonNode[]): any {
   function processNode(node: JsonNode): any {
     if (node.value !== undefined && node.value.trim() !== '') {
       // 如果设置了非空的特定值，将其分割成可选值数组
-      const options = node.value.split('^').map(v => v.trim());
-      const selectedValue = options[Math.floor(Math.random() * options.length)];
-      
+      const options = node.value.split('^').map((v) => v.trim())
+      const selectedValue = options[Math.floor(Math.random() * options.length)]
+
       // 根据类型进行转换
       switch (node.type) {
         case 'number':
-          return Number(selectedValue);
+          return Number(selectedValue)
         case 'boolean':
-          return selectedValue.toLowerCase() === 'true';
+          return selectedValue.toLowerCase() === 'true'
         case 'null':
-          return null;
+          return null
         case 'object':
         case 'array':
           try {
-            return JSON.parse(selectedValue);
+            return JSON.parse(selectedValue)
           } catch {
-            console.warn(`无法解析 ${node.key} 的值为 ${node.type}，使用原始字符串`);
-            return selectedValue;
+            console.warn(
+              `无法解析 ${node.key} 的值为 ${node.type}，使用原始字符串`,
+            )
+            return selectedValue
           }
         default:
-          return selectedValue;
+          return selectedValue
       }
     }
 
     switch (node.type) {
       case 'object':
-        const obj: { [key: string]: any } = {};
-        node.children?.forEach(child => {
-          obj[child.key] = processNode(child);
-        });
-        return obj;
+        const obj: { [key: string]: any } = {}
+        node.children?.forEach((child) => {
+          obj[child.key] = processNode(child)
+        })
+        return obj
       case 'array':
-        const arr: any[] = [];
-        const length = node.length || 1;
+        const arr: any[] = []
+        const length = node.length || 1
         for (let i = 0; i < length; i++) {
-          arr.push(processNode(node.children?.[0] || { key: 'item', type: 'string', mock: 'string.alphanumeric' }));
+          arr.push(
+            processNode(
+              node.children?.[0] || {
+                key: 'item',
+                type: 'string',
+                mock: 'string.alphanumeric',
+              },
+            ),
+          )
         }
-        return arr;
+        return arr
       case 'number':
-        let options: FakeOptions = {};
-        if (node.min) options.min = Number(node.min);
-        if (node.max) options.max = Number(node.max);
-        return fake(node.mock, options);
+        let options: FakeOptions = {}
+        if (node.min) options.min = Number(node.min)
+        if (node.max) options.max = Number(node.max)
+        return fake(node.mock, options)
       case 'string':
       case 'boolean':
-        return fake(node.mock);
+        return fake(node.mock)
       case 'null':
-        return null;
+        return null
       case 'any':
-        return fake('datatype.json');
+        return fake('datatype.json')
       default:
-        return undefined;
+        return undefined
     }
   }
 
-  return processNode(body[0]);
+  return processNode(body[0])
 }
 
 interface FakeOptions {
-  min?: number;
-  max?: number;
+  min?: number
+  max?: number
 }
 
 function fake(key: string, options?: FakeOptions) {
@@ -84,7 +94,7 @@ function fake(key: string, options?: FakeOptions) {
 
   for (const part of parts) {
     if (typeof currentObject[part] === 'function') {
-      let result: any;
+      let result: any
       if (options) {
         result = currentObject[part](options)
       } else {
@@ -102,7 +112,4 @@ function fake(key: string, options?: FakeOptions) {
   throw new Error(`生成模拟数据失败: ${key}`)
 }
 
-export {
-  processResBody,
-  fake
-}
+export { processResBody, fake }

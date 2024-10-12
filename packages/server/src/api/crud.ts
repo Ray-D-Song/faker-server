@@ -5,7 +5,7 @@ import { formatPath } from '../utils/path'
 
 const crudApp = new Hono<{ Bindings: Bindings }>()
 
-crudApp.post('/create', async c => {
+crudApp.post('/create', async (c) => {
   const api = await c.req.json<Api>()
   const db = c.get('db')
   const collection = db.collection<Api>('apis')
@@ -15,7 +15,7 @@ crudApp.post('/create', async c => {
     const existingApi = await collection.findOne({
       path: formatPath(api.path),
       method: api.method,
-      deleted: { $ne: true }
+      deleted: { $ne: true },
     })
     if (existingApi) {
       return c.json({ error: 'API already exists' }, 400)
@@ -24,7 +24,7 @@ crudApp.post('/create', async c => {
       ...api,
       path: formatPath(api.path),
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
     })
 
     if (result.acknowledged) {
@@ -39,7 +39,7 @@ crudApp.post('/create', async c => {
   }
 })
 
-crudApp.post('/update', async c => {
+crudApp.post('/update', async (c) => {
   const api = await c.req.json<Api>()
   const db = c.get('db')
   const collection = db.collection<Api>('apis')
@@ -51,27 +51,32 @@ crudApp.post('/update', async c => {
   try {
     const id = new ObjectId(api._id)
     // check if the path and method is already exists, except only one api
-    const existingApis = await collection.find({
-      path: formatPath(api.path),
-      method: api.method,
-      deleted: { $ne: true }
-    }).toArray()
+    const existingApis = await collection
+      .find({
+        path: formatPath(api.path),
+        method: api.method,
+        deleted: { $ne: true },
+      })
+      .toArray()
     if (existingApis.length > 1) {
       return c.json({ error: 'API path and method must be unique' }, 400)
     }
-    if (existingApis.length === 1 && existingApis[0]._id.toString() !== id.toString()) {
+    if (
+      existingApis.length === 1 &&
+      existingApis[0]._id.toString() !== id.toString()
+    ) {
       return c.json({ error: 'API path and method must be unique' }, 400)
     }
     delete api._id
     const result = await collection.updateOne(
       { _id: id },
-      { 
-        $set: { 
-          ...api, 
+      {
+        $set: {
+          ...api,
           path: formatPath(api.path),
-          updatedAt: new Date() 
-        } 
-      }
+          updatedAt: new Date(),
+        },
+      },
     )
 
     if (result.matchedCount === 0) {
@@ -86,7 +91,7 @@ crudApp.post('/update', async c => {
   }
 })
 
-crudApp.delete('/delete/:id', async c => {
+crudApp.delete('/delete/:id', async (c) => {
   const id = c.req.param('id')
   const db = c.get('db')
   const collection = db.collection<Api>('apis')
@@ -94,7 +99,7 @@ crudApp.delete('/delete/:id', async c => {
   try {
     const result = await collection.updateOne(
       { _id: new ObjectId(id) },
-      { $set: { deleted: true, updatedAt: new Date() } }
+      { $set: { deleted: true, updatedAt: new Date() } },
     )
 
     if (result.matchedCount === 0) {
@@ -108,15 +113,17 @@ crudApp.delete('/delete/:id', async c => {
   }
 })
 
-crudApp.get('/list', async c => {
+crudApp.get('/list', async (c) => {
   const db = c.get('db')
   const collection = db.collection<Api>('apis')
 
   try {
-    const apis = await collection.find(
-      { deleted: { $ne: true } },
-      { projection: { _id: 1, name: 1, method: 1, path: 1 } }
-    ).toArray()
+    const apis = await collection
+      .find(
+        { deleted: { $ne: true } },
+        { projection: { _id: 1, name: 1, method: 1, path: 1 } },
+      )
+      .toArray()
     return c.json(apis)
   } catch (error) {
     console.error('Error fetching API list:', error)
@@ -125,13 +132,16 @@ crudApp.get('/list', async c => {
 })
 
 // 添加新的详情接口
-crudApp.get('/detail/:id', async c => {
+crudApp.get('/detail/:id', async (c) => {
   const id = c.req.param('id')
   const db = c.get('db')
   const collection = db.collection<Api>('apis')
 
   try {
-    const api = await collection.findOne({ _id: new ObjectId(id), deleted: { $ne: true } })
+    const api = await collection.findOne({
+      _id: new ObjectId(id),
+      deleted: { $ne: true },
+    })
     if (!api) {
       return c.json({ error: 'API not found' }, 404)
     }

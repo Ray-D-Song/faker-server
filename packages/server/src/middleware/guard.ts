@@ -21,5 +21,5 @@ export default {
       return c.json({ error: 'Unauthorized' }, 401)
     }
     await next()
-  }
+  },
 }

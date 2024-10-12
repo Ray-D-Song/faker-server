@@ -46,15 +46,21 @@ dotenv.config({ path: configFile })
 
 app.use(logger())
 
-app.get('/static/*', serveStatic({
-  root: path.relative(process.cwd(), __dirname)
-}))
+app.get(
+  '/static/*',
+  serveStatic({
+    root: path.relative(process.cwd(), __dirname),
+  }),
+)
 
 app.use('*', cors())
 
-serve({
-  ...app,
-  port: Number(process.env.PORT) || 3000
-}, (info) => {
-  console.log(`Listening on http://localhost:${info.port}`)
-})
+serve(
+  {
+    ...app,
+    port: Number(process.env.PORT) || 3000,
+  },
+  (info) => {
+    console.log(`Listening on http://localhost:${info.port}`)
+  },
+)

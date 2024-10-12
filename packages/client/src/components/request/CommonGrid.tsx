@@ -1,20 +1,19 @@
-import { useState, useEffect } from 'react';
-import { DataGrid, GridColDef, useGridApiRef } from '@mui/x-data-grid';
-import { Autocomplete, TextField, IconButton } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { useState, useEffect } from 'react'
+import { DataGrid, GridColDef, useGridApiRef } from '@mui/x-data-grid'
+import { Autocomplete, TextField, IconButton } from '@mui/material'
+import DeleteIcon from '@mui/icons-material/Delete'
 
 interface CommonGridProps {
   cols: Array<{
-    editable: boolean;
-    headerName: string;
-    type: 'input' | 'select',
+    editable: boolean
+    headerName: string
+    type: 'input' | 'select'
     options?: Array<string>
   }>
   onUpdate: (val: unknown) => void
 }
 
 function CommonGrid({ cols, onUpdate }: CommonGridProps) {
-
   const columns: GridColDef[] = [
     ...cols.map((col, index) => {
       let obj: GridColDef = {
@@ -32,10 +31,18 @@ function CommonGrid({ cols, onUpdate }: CommonGridProps) {
             renderInput={(params) => <TextField {...params} />}
             value={params.value}
             onChange={(_, newValue) => {
-              params.api.setEditCellValue({ id: params.id, field: `field${index + 1}`, value: newValue });
+              params.api.setEditCellValue({
+                id: params.id,
+                field: `field${index + 1}`,
+                value: newValue,
+              })
             }}
             onInputChange={(_, newInputValue) => {
-              params.api.setEditCellValue({ id: params.id, field: `field${index + 1}`, value: newInputValue });
+              params.api.setEditCellValue({
+                id: params.id,
+                field: `field${index + 1}`,
+                value: newInputValue,
+              })
             }}
           />
         )
@@ -58,34 +65,44 @@ function CommonGrid({ cols, onUpdate }: CommonGridProps) {
         </IconButton>
       ),
     },
-  ];
+  ]
 
-  const [rows, setRows] = useState([
-    { id: 1, field1: '', field2: '' },
-  ]);
+  const [rows, setRows] = useState([{ id: 1, field1: '', field2: '' }])
 
   const handleDeleteRow = (id: number) => {
-    setRows((prevRows) => prevRows.filter((row) => row.id !== id));
-  };
+    setRows((prevRows) => prevRows.filter((row) => row.id !== id))
+  }
 
   useEffect(() => {
-    const lastRow = rows[rows.length - 1];
+    const lastRow = rows[rows.length - 1]
     if (lastRow.field1 && lastRow.field2) {
-      setRows([...rows, { id: rows.length + 1, field1: '', field2: '' }]);
+      setRows([...rows, { id: rows.length + 1, field1: '', field2: '' }])
     }
-    
-    const filteredRows = rows.filter(row => row.field1 && row.field2);
-    const resultObject = filteredRows.reduce<Record<string, string>>((acc, row) => {
-      acc[row.field1] = row.field2;
-      return acc;
-    }, {});
-    onUpdate(resultObject)
-  }, [rows]);
 
-  const apiRef = useGridApiRef();
+    const filteredRows = rows.filter((row) => row.field1 && row.field2)
+    const resultObject = filteredRows.reduce<Record<string, string>>(
+      (acc, row) => {
+        acc[row.field1] = row.field2
+        return acc
+      },
+      {},
+    )
+    onUpdate(resultObject)
+  }, [rows])
+
+  const apiRef = useGridApiRef()
   const handleCellEditStop = (params: any) => {
-    const newRow = apiRef.current?.getRowWithUpdatedValues(params.id, params.field);
-    setRows(rows.map(row => row.id === newRow.id ? newRow as { id: number; field1: string; field2: string; } : row));
+    const newRow = apiRef.current?.getRowWithUpdatedValues(
+      params.id,
+      params.field,
+    )
+    setRows(
+      rows.map((row) =>
+        row.id === newRow.id
+          ? (newRow as { id: number; field1: string; field2: string })
+          : row,
+      ),
+    )
   }
 
   return (
@@ -99,7 +116,7 @@ function CommonGrid({ cols, onUpdate }: CommonGridProps) {
         apiRef={apiRef}
       />
     </div>
-  );
-};
+  )
+}
 
-export default CommonGrid;
+export default CommonGrid

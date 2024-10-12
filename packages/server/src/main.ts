@@ -13,7 +13,7 @@ app.use('/api/*', guard.apiGuard)
 
 app.get('/', async (c) => {
   return c.html(
-`<!DOCTYPE html>
+    `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">

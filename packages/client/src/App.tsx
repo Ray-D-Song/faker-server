@@ -1,4 +1,4 @@
-import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
+import { createTheme, CssBaseline, ThemeProvider } from '@mui/material'
 import Dashboard from './dashboard'
 
 const darkTheme = createTheme({
@@ -9,10 +9,9 @@ const darkTheme = createTheme({
       paper: '#0F1214',
     },
   },
-});
+})
 
 function App() {
-
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />

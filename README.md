@@ -1,11 +1,14 @@
 ## Directory
+
 - [简体中文](./docs/zh_CN/README.zhCN.md)
 - [English](./README.md)
 
 ## Faker Server
-Faker Server is a mock server based on Faker.js. It can be used to generate mock data for development and testing.  
+
+Faker Server is a mock server based on Faker.js. It can be used to generate mock data for development and testing.
 
 ## Deploy
+
 Currently supports npm command and Docker deployment.
 
 First, you need a MongoDB database and obtain the connection string. We recommend using MongoDB Atlas, but you can also deploy it yourself.
@@ -13,6 +16,7 @@ First, you need a MongoDB database and obtain the connection string. We recommen
 MongoDB Atlas usage method can be found [here](./docs/en/mongodb-atlas.md).
 
 ### npm command
+
 ```bash
 # Install
 npm install -g faker-server
@@ -40,7 +44,7 @@ ADMIN_KEY=${uuid}
 MONGO_URL=mongodb://admin:password@localhost:27017?authSource=admin
 ```
 
-`ACCESS_KEY` and `ADMIN_KEY` are randomly generated when the service is first started. You can also modify them as needed.  
+`ACCESS_KEY` and `ADMIN_KEY` are randomly generated when the service is first started. You can also modify them as needed.
 
 `ACCESS_KEY` is used to access the mock service, and `ADMIN_KEY` is used to manage the interface in the page. They are not interchangeable.
 
@@ -51,6 +55,7 @@ MONGO_URL=mongodb://admin:password@localhost:27017?authSource=admin
 🚧 Under Construction
 
 ## Access Service
-The mock service interface address is `/mock/*`, for example, if you add an interface `/mock/user/list`, you can access it through `http://localhost:3000/mock/user/list`.  
 
-When `PUBLIC_ACCESS` is set to false, accessing the interface requires the `Faker-Server-Key` request header, with a value of `ACCESS_KEY`.  
+The mock service interface address is `/mock/*`, for example, if you add an interface `/mock/user/list`, you can access it through `http://localhost:3000/mock/user/list`.
+
+When `PUBLIC_ACCESS` is set to false, accessing the interface requires the `Faker-Server-Key` request header, with a value of `ACCESS_KEY`.
