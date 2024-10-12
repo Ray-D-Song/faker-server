@@ -41,7 +41,7 @@ const builtinModules = [
   'v8',
   'vm',
   'zlib',
-  'timers',
+  'timers/promises',
   'process',
 ]
 
