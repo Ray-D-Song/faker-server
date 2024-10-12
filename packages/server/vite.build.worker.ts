@@ -41,7 +41,7 @@ const builtinModules = [
   'v8',
   'vm',
   'zlib',
-  'timers/promises',
+  'timers',
   'process',
 ]
 
@@ -49,8 +49,8 @@ function addNodePrefix(): Plugin {
   return {
     name: 'add-node-prefix',
     writeBundle() {
-      const workerJs = readFileSync('../../dist/_worker.js', 'utf-8')
-      const workerJsLines = workerJs.split('\n').map((line) => {
+      const raw = readFileSync('../../dist/_worker.js', 'utf-8')
+      const workerJsLines = raw.split('\n').map((line) => {
         if (line.startsWith('import ')) {
           builtinModules.forEach((module) => {
             if (line.includes(module)) {
