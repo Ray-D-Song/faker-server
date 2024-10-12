@@ -7,7 +7,9 @@
     "api-list": "接口列表",
     "create-api": "新增接口",
     "input-admin-key": "输入 Admin 密钥",
-    "admin-key": "Admin 密钥"
+    "admin-key": "Admin 密钥",
+    "input-key": "输入密钥",
+    "key": "Admin密钥或只读密钥"
   },
   "faker-select": {
     "label": "选择 Faker 方法"
@@ -36,6 +38,7 @@
   },
   "success": {
     "api-update": "API 更新成功",
-    "api-create": "API 创建成功"
+    "api-create": "API 创建成功",
+    "api-delete": "API 删除成功"
   }
 }

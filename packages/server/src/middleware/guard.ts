@@ -15,11 +15,23 @@ export default {
     }
   },
   apiGuard: async (c: Context, next: Next) => {
-    const { ADMIN_KEY } = env(c)
+    const { ADMIN_KEY, READONLY_KEY } = env(c)
     const key = c.req.header('Faker-Server-Key')
-    if (!key || key !== ADMIN_KEY) {
-      return c.json({ error: 'Unauthorized' }, 401)
+
+    // list and detail
+    if (c.req.method === 'GET') {
+      if (!key || (key !== READONLY_KEY && key !== ADMIN_KEY)) {
+        return c.json({ error: 'Unauthorized' }, 401)
+      }
+      await next()
     }
-    await next()
+
+    // create, update, delete
+    if (c.req.method !== 'GET') {
+      if (!key || key !== ADMIN_KEY) {
+        return c.json({ error: 'Unauthorized' }, 401)
+      }
+      await next()
+    }
   },
 }

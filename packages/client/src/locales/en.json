@@ -7,7 +7,9 @@
     "api-list": "API List",
     "create-api": "Create API",
     "input-admin-key": "Input Admin Key",
-    "admin-key": "Admin Key"
+    "admin-key": "Admin Key",
+    "input-key": "Input Key",
+    "key": "Admin Key or Readonly Key"
   },
   "faker-select": {
     "label": "Select Faker Method"
@@ -36,6 +38,7 @@
   },
   "success": {
     "api-update": "API updated successfully",
-    "api-create": "API created successfully"
+    "api-create": "API created successfully",
+    "api-delete": "API deleted successfully"
   }
 }

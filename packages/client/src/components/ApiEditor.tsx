@@ -19,7 +19,7 @@ import { useTranslation } from 'react-i18next'
 interface ApiEditorProps {
   type: 'update' | 'create'
   apiId: string | null
-  onSave: (apiData: ApiData) => void
+  onSave: (apiData: ApiData) => Promise<void>
   apiKey: string
 }
 
@@ -51,7 +51,6 @@ function ApiEditor({ type, apiId, onSave, apiKey }: ApiEditorProps) {
     resResponseType: 'json',
     resBody: [],
   })
-  const [] = useState(0)
   const resBodyRef = useRef<JsonEditorRef>(null)
 
   const { t } = useTranslation()
@@ -106,7 +105,9 @@ function ApiEditor({ type, apiId, onSave, apiKey }: ApiEditorProps) {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault()
     apiData.resBody = resBodyRef.current?.getData() || []
-    onSave(apiData)
+    onSave(apiData).then(() => {
+      resBodyRef.current?.clearData()
+    })
   }
 
   if (loading) {

@@ -32,18 +32,23 @@ ACCESS_KEY=${uuid}
 # /api/* will continue to require authentication
 PUBLIC_ACCESS=false
 
-# Access /api/* API
+# ADMIN_KEY is used to access the web page and modify the data
 ADMIN_KEY=${uuid}
+
+# READONLY_KEY can access the web page, but cannot modify the data
+READONLY_KEY=${uuid}
 
 # MongoDB URL
 MONGO_URL=mongodb://admin:password@localhost:27017?authSource=admin
 ```
 
-其中`ACCESS_KEY`和`ADMIN_KEY`为服务首次启动时随机生成，你也可以根据需要修改。
+其中`ACCESS_KEY`、`ADMIN_KEY`、`READONLY_KEY`为服务首次启动时随机生成，你也可以根据需要修改。
 
-`ACCESS_KEY`用于访问 mock 服务，`ADMIN_KEY`用于在页面管理接口, 两者不通用。
+`ACCESS_KEY`用于访问 mock 服务。  
+`ADMIN_KEY`用于在页面管理接口。  
+`READONLY_KEY`可以访问页面，但不能修改数据。
 
-`PUBLIC_ACCESS`为 true 时，mock 接口将允许公共访问，用于编辑的`/api/*`仍然需要认证。
+`PUBLIC_ACCESS`为 true 时，`/mock/*`接口将允许公共访问，用于编辑的`/api/*`接口仍然需要认证。
 
 ### Docker
 
@@ -51,6 +56,14 @@ MONGO_URL=mongodb://admin:password@localhost:27017?authSource=admin
 
 ## 访问服务
 
-mock 服务的接口地址为 `/mock/*`，例如你新增了一个接口`/mock/user/list`，那么你可以通过`http://localhost:3000/mock/user/list`访问。
+### web 页面
 
-`PUBLIC_ACCESS`设置为 false 时，访问接口需要携带`Faker-Server-Key`请求头，值为`ACCESS_KEY`。
+假如你的服务运行在`http://localhost:3000`，那么web页面可以通过`http://localhost:3000`访问。
+
+页面会提示你输入`ADMIN_KEY`或`READONLY_KEY`。
+
+### mock 服务
+
+mock 服务的接口地址为 `/mock/*`，例如你新增了一个接口`/user/list`，那么你可以通过`http://localhost:3000/mock/user/list`访问。
+
+`PUBLIC_ACCESS`设置为 false 时，访问接口需要携带`Faker-Server-Key`请求头，值为.env文件中的`ACCESS_KEY`。

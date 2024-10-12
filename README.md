@@ -37,18 +37,23 @@ ACCESS_KEY=${uuid}
 # /api/* will continue to require authentication
 PUBLIC_ACCESS=false
 
-# Access /api/* API
+# ADMIN_KEY is used to access the web page and modify the data
 ADMIN_KEY=${uuid}
+
+# READONLY_KEY can access the web page, but cannot modify the data
+READONLY_KEY=${uuid}
 
 # MongoDB URL
 MONGO_URL=mongodb://admin:password@localhost:27017?authSource=admin
 ```
 
-`ACCESS_KEY` and `ADMIN_KEY` are randomly generated when the service is first started. You can also modify them as needed.
+`ACCESS_KEY` `ADMIN_KEY` `READONLY_KEY` are randomly generated when the service is first started. You can also modify them as needed.
 
-`ACCESS_KEY` is used to access the mock service, and `ADMIN_KEY` is used to manage the interface in the page. They are not interchangeable.
+`ACCESS_KEY` is used to access the mock service.  
+`ADMIN_KEY` is used to manage the interface in the page.  
+`READONLY_KEY` can access the web page, but cannot modify the data.
 
-`PUBLIC_ACCESS` is true, the mock interface will allow public access, and the `/api/*` interface for editing will still require authentication.
+`PUBLIC_ACCESS` is true, the mock service will allow public access, but the `/api/*` interface for editing will still require authentication.
 
 ### Docker
 
@@ -56,6 +61,14 @@ MONGO_URL=mongodb://admin:password@localhost:27017?authSource=admin
 
 ## Access Service
 
-The mock service interface address is `/mock/*`, for example, if you add an interface `/mock/user/list`, you can access it through `http://localhost:3000/mock/user/list`.
+### web page
 
-When `PUBLIC_ACCESS` is set to false, accessing the interface requires the `Faker-Server-Key` request header, with a value of `ACCESS_KEY`.
+If your service is running on `http://localhost:3000`, then the web page can be accessed through `http://localhost:3000`.
+
+The page will prompt you to enter `ADMIN_KEY` or `READONLY_KEY`.
+
+### mock service
+
+The mock service interface address is `/mock/*`, for example, if you add an interface `/user/list`, you can access it through `http://localhost:3000/mock/user/list`.
+
+When `PUBLIC_ACCESS` is set to false, accessing the interface requires the `Faker-Server-Key` request header, the value is the `ACCESS_KEY` in the `.env` file.

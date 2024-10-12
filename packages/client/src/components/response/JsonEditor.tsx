@@ -145,8 +145,9 @@ const JsonEditor = forwardRef<JsonEditorRef, JsonEditorProps>(
                           }
                         />
                       </Grid2>
-                      <Grid2 width={200}>
+                      <Grid2 width={280}>
                         <TextField
+                          fullWidth
                           size="small"
                           value={node.value || ''}
                           onChange={(e) =>

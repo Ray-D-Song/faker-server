@@ -13,7 +13,7 @@ import {
 import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { useState, useEffect } from 'react'
-import { toast } from 'react-hot-toast'
+import { toast, Toaster } from 'react-hot-toast'
 import ApiEditor, { ApiData } from './components/ApiEditor'
 import {
   Dialog,
@@ -25,7 +25,7 @@ import {
 import { useTranslation } from 'react-i18next'
 import TranslateIcon from '@mui/icons-material/Translate'
 import GitHubIcon from '@mui/icons-material/GitHub'
-
+import SettingsIcon from '@mui/icons-material/Settings'
 interface ApiListItem {
   _id: string
   name: string
@@ -141,6 +141,7 @@ export default function Dashboard() {
       } else {
         toast.error(t('error.save-api'))
       }
+      throw error
     }
   }
 
@@ -170,6 +171,7 @@ export default function Dashboard() {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
+      <Toaster position="top-center" />
       <Box sx={{ display: 'flex', flexGrow: 1, overflow: 'hidden' }}>
         <Drawer
           variant="permanent"
@@ -248,6 +250,9 @@ export default function Dashboard() {
           sx={{ flexGrow: 1, p: 3, pt: 1, overflow: 'auto' }}
         >
           <div className="w-full h-8 mb-4 z-10 flex items-center justify-end">
+            <IconButton color="inherit" onClick={() => setOpenKeyDialog(true)}>
+              <SettingsIcon />
+            </IconButton>
             <IconButton onClick={toggleLanguage} color="inherit">
               <TranslateIcon />
             </IconButton>
@@ -269,12 +274,12 @@ export default function Dashboard() {
         </Box>
       </Box>
       <Dialog open={openKeyDialog} onClose={() => setOpenKeyDialog(false)}>
-        <DialogTitle>{t('dashboard.input-admin-key')}</DialogTitle>
+        <DialogTitle>{t('dashboard.input-key')}</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
             margin="dense"
-            label={t('dashboard.admin-key')}
+            label={t('dashboard.key')}
             type="password"
             fullWidth
             variant="outlined"
