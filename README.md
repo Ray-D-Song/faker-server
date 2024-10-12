@@ -12,9 +12,10 @@ Faker Server is a mock server based on Faker.js. It can be used to generate mock
 Online access: [https://faker-preview.jenrays.com/](https://faker-preview.jenrays.com/)  
 Read-only key: `1234`
 
-Mock API list:  
-* [`GET /mock/user/list`](https://faker-preview.jenrays.com/mock/user/list)
-* [`POST /mock/user`](https://faker-preview.jenrays.com/mock/user)
+Mock API list:
+
+- [`GET /mock/user/list`](https://faker-preview.jenrays.com/mock/user/list)
+- [`POST /mock/user`](https://faker-preview.jenrays.com/mock/user)
 
 ## Deploy
 

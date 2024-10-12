@@ -8,9 +8,10 @@ Faker Server 是一个基于 Faker.js 的 mock 服务器。
 在线访问：[https://faker-preview.jenrays.com/](https://faker-preview.jenrays.com/)  
 只读密钥：`1234`
 
-Mock 接口列表：  
-* [`GET /mock/user/list`](https://faker-preview.jenrays.com/mock/user/list)
-* [`POST /mock/user`](https://faker-preview.jenrays.com/mock/user)
+Mock 接口列表：
+
+- [`GET /mock/user/list`](https://faker-preview.jenrays.com/mock/user/list)
+- [`POST /mock/user`](https://faker-preview.jenrays.com/mock/user)
 
 ## 部署
 
