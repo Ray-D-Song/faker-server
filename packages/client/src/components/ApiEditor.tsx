@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Typography, TextField, Button, Box, CircularProgress, Select, MenuItem, FormControl, InputLabel, SelectChangeEvent } from '@mui/material';
-import JsonEditor, { JsonNode } from './response/JsonEditor';
+import JsonEditor, {JsonEditorRef, JsonNode } from './response/JsonEditor';
 import { toast } from 'react-hot-toast';
 import i18n from '../utils/i18n';
 import { useTranslation } from 'react-i18next';
@@ -38,11 +38,10 @@ function ApiEditor({ type, apiId, onSave, apiKey }: ApiEditorProps) {
     reqHeaders: '',
     resHeaders: '',
     resResponseType: 'json',
-    resBody: [
-      { key: 'root', type: 'object', mock: '', children: [], options: ['object', 'array'], length: 1, value: '' }
-    ],
+    resBody: [],
   });
   const [activeTab, setActiveTab] = useState(0);
+  const resBodyRef = useRef<JsonEditorRef>(null);
 
   const { t } = useTranslation()
   useEffect(() => {
@@ -58,9 +57,7 @@ function ApiEditor({ type, apiId, onSave, apiKey }: ApiEditorProps) {
         reqHeaders: '',
         resHeaders: '',
         resResponseType: 'json',
-        resBody: [
-          { key: 'root', type: 'object', mock: '', children: [], options: ['object', 'array'], length: 1, value: '' }
-        ],
+        resBody: [],
       });
     }
   }, [type, apiId]);
@@ -93,6 +90,7 @@ function ApiEditor({ type, apiId, onSave, apiKey }: ApiEditorProps) {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+    apiData.resBody = resBodyRef.current?.getData() || [];
     onSave(apiData);
   };
 
@@ -185,7 +183,7 @@ function ApiEditor({ type, apiId, onSave, apiKey }: ApiEditorProps) {
         </Fade>
       </Box> */}
       <Typography variant="h6">{t('api-editor.response-data')}</Typography>
-      <JsonEditor onChange={handleResBodyUpdate} data={apiData.resBody as JsonNode[]} />
+      <JsonEditor initData={apiData.resBody as JsonNode[]} ref={resBodyRef} />
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
         <Button variant="contained" type="submit">{t(`api-editor.${type === 'update' ? 'update' : 'create'}`)}</Button>
       </Box>

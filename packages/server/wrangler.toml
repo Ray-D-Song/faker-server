@@ -1,7 +1,0 @@
-name = "faker-server"
-compatibility_date = "2024-09-27"
-pages_build_output_dir = "./dist"
-compatibility_flags = [ "nodejs_compat" ]
-
-[vars]
-TOKEN = "faker-server"

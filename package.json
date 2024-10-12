@@ -11,7 +11,8 @@
   "scripts": {
     "dev:client": "pnpm run --filter client dev",
     "dev:server": "pnpm run --filter server dev",
-    "build:node": "pnpm run --filter server build:node && pnpm run --filter client build"
+    "build:node": "pnpm run --filter server build:node && pnpm run --filter client build",
+    "lint-fix": "oxlint --fix"
   },
   "keywords": [
     "faker",
@@ -24,5 +25,8 @@
   ],
   "author": "ray-d-song",
   "license": "MIT",
-  "homepage": "https://github.com/ray-d-song/faker-server#readme"
+  "homepage": "https://github.com/ray-d-song/faker-server#readme",
+  "devDependencies": {
+    "oxlint": "^0.9.10"
+  }
 }

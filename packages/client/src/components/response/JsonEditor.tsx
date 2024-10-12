@@ -1,4 +1,4 @@
-import React, { useState, memo } from 'react';
+import React, { useState, memo, useImperativeHandle, forwardRef } from 'react';
 import { SimpleTreeView, TreeItem } from '@mui/x-tree-view';
 import { TextField, Select, MenuItem, Grid2, IconButton, InputAdornment } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -21,12 +21,32 @@ export interface JsonNode {
 const typeOptions = ['string', 'number', 'boolean', 'array', 'object', 'null', 'any'];
 
 interface JsonEditorProps {
-  onChange: (val: JsonNode[]) => void;
-  data: JsonNode[];
+  initData: JsonNode[];
 }
 
-const JsonEditor: React.FC<JsonEditorProps> = ({ onChange, data }) => {
+export interface JsonEditorRef {
+  getData: () => JsonNode[];
+  clearData: () => void;
+}
+
+const JsonEditor = forwardRef<JsonEditorRef, JsonEditorProps>(({ initData }, ref) => {
   const { t, i18n } = useTranslation()
+  const [data, setData] = useState<JsonNode[]>(initData?.length !== 0 ? initData : [
+    { key: 'root', type: 'object', mock: '', children: [], options: ['object', 'array'], length: 1, value: '' }
+  ])
+
+  const clearData = () => {
+    setData([
+      { key: 'root', type: 'object', mock: '', children: [], options: ['object', 'array'], length: 1, value: '' }
+    ])
+  }
+  const getData = () => {
+    return data
+  }
+  useImperativeHandle(ref, () => ({
+    clearData,
+    getData
+  }))
 
   const renderTree = (nodes: JsonNode[], parentId = '') => {
     return nodes.map((node, index) => {
@@ -127,7 +147,7 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ onChange, data }) => {
               )}
               {node.type === 'object' && (
                 <Grid2>
-                  <IconButton onClick={() => addChild(node)} size="small">
+                  <IconButton onClick={(e) => { e.stopPropagation(); addChild(node) }} size="small">
                     <AddCircleOutlineIcon />
                   </IconButton>
                 </Grid2>
@@ -196,7 +216,7 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ onChange, data }) => {
       });
     };
 
-    onChange(updateNode(data));
+    setData(updateNode(data));
   };
 
   const addChild = (parent: JsonNode) => {
@@ -213,7 +233,7 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ onChange, data }) => {
       });
     };
 
-    onChange(updateNode(data));
+    setData(updateNode(data));
   };
 
   const deleteNode = (nodeToDelete: JsonNode, parentId: string) => {
@@ -233,7 +253,7 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ onChange, data }) => {
     };
 
     const path = parentId.split('-').map(Number);
-    onChange(updateNode(data, path));
+    setData(updateNode(data, path));
   };
 
   // add this helper function to get node by path
@@ -254,6 +274,6 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ onChange, data }) => {
       {renderTree(data)}
     </SimpleTreeView>
   );
-};
+})
 
 export default memo(JsonEditor);
