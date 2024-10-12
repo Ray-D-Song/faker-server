@@ -5,7 +5,7 @@
   "scripts": {
     "build:node": "node esbuild.config.mjs",
     "dev": "pnpm run build:node && cd dist && node index.cjs",
-    "build:cf": "vite build --config vite.cf.config.ts"
+    "build:worker": "vite build --config vite.build.worker.ts"
   },
   "dependencies": {
     "@faker-js/faker": "^9.0.3",
