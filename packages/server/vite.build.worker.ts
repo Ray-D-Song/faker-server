@@ -42,6 +42,7 @@ const builtinModules = [
   'vm',
   'zlib',
   'timers',
+  'process',
 ]
 
 function addNodePrefix(): Plugin {
