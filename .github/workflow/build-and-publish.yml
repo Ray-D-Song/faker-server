@@ -1,0 +1,44 @@
+name: Build and Publish
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Check version changes
+        id: check
+        run: |
+          git diff HEAD^ HEAD -- package.json | grep '"version"' || echo "::set-output name=changed::false"
+          if [ $? -eq 0 ]; then
+            echo "::set-output name=changed::true"
+          fi
+
+      - name: Build packages
+        if: steps.check.outputs.changed == 'true'
+        run: pnpm run build:node
+
+      - name: Publish to NPM
+        if: steps.check.outputs.changed == 'true'
+        run: npm publish --tag=beta
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
