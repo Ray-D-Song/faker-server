@@ -1,0 +1,12 @@
+name = "faker-server"
+compatibility_flags = [ "nodejs_compat" ]
+compatibility_date = "2024-09-23"
+
+pages_build_output_dir = "dist"
+
+[vars]
+PUBLIC_ACCESS = "true"
+ACCESS_KEY = ""
+ADMIN_KEY = ""
+READONLY_KEY = ""
+MONGO_URL = "mongodb://localhost:27017"
