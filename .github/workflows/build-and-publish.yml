@@ -43,6 +43,8 @@ jobs:
 
       - name: Publish to NPM
         if: steps.check.outputs.changed == 'true'
-        run: npm publish --tag=beta
+        run: |
+          npm publish --tag=beta
+          npm dist-tag add @ray-d-song/faker-server@$(node -p "require('./package.json').version") latest
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
