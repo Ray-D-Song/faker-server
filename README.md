@@ -1,7 +1,7 @@
 ## Directory
 
-- [简体中文](./docs/zh_CN/README.zhCN.md)
-- [English](./README.md)
+- [简体中文](https://github.com/ray-d-song/faker-server/blob/main/docs/zh_CN/README.zhCN.md)
+- [English](https://github.com/ray-d-song/faker-server/blob/main/README.md)
 
 ## Faker Server
 
@@ -13,7 +13,7 @@ Currently supports npm command and Docker deployment.
 
 First, you need a MongoDB database and obtain the connection string. We recommend using MongoDB Atlas, but you can also deploy it yourself.
 
-MongoDB Atlas usage method can be found [here](./docs/en/mongodb-atlas.md).
+MongoDB Atlas usage method can be found [here](https://github.com/ray-d-song/faker-server/blob/main/docs/en/mongodb-atlas.md).
 
 ### npm command
 

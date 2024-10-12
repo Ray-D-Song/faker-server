@@ -8,7 +8,7 @@ Faker Server 是一个基于 Faker.js 的 mock 服务器。
 当前支持 npm 命令和 Docker 部署。
 
 首先你需要一个 MongoDB 数据库并获取连接字符串，推荐使用 MongoDB Atlas，也可以自己部署。  
-MongoDB Atlas 的使用方法见 [这里](./mongodb-atlas.md)。
+MongoDB Atlas 的使用方法见 [这里](https://github.com/ray-d-song/faker-server/blob/main/docs/zh_CN/mongodb-atlas.md)。
 
 ### npm 命令
 
