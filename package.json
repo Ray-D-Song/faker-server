@@ -1,7 +1,7 @@
 {
   "name": "@ray-d-song/faker-server",
   "version": "0.1.0-beta.1",
-  "description": "Faker.js mock server",
+  "description": "Faker.js mock server with a web interface",
   "bin": {
     "faker-server": "dist/index.cjs"
   },
@@ -26,6 +26,10 @@
   "author": "ray-d-song",
   "license": "MIT",
   "homepage": "https://github.com/ray-d-song/faker-server#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ray-d-song/faker-server.git"
+  },
   "devDependencies": {
     "oxlint": "^0.9.10",
     "prettier": "3.3.3"
