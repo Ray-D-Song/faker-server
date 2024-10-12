@@ -61,6 +61,7 @@ function addNodePrefix(): Plugin {
         return line
       })
       writeFileSync('../../dist/_worker.js', workerJsLines.join('\n'))
+      
     },
   }
 }
