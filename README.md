@@ -7,6 +7,15 @@
 
 Faker Server is a mock server based on Faker.js. It can be used to generate mock data for development and testing.
 
+![Faker Server](https://raw.githubusercontent.com/ray-d-song/faker-server/main/docs/static/preview.png)
+
+Online access: [https://faker-preview.jenrays.com/](https://faker-preview.jenrays.com/)  
+Read-only key: `1234`
+
+Mock API list:  
+* [`GET /mock/user/list`](https://faker-preview.jenrays.com/mock/user/list)
+* [`POST /mock/user`](https://faker-preview.jenrays.com/mock/user)
+
 ## Deploy
 
 Currently supports npm command and Docker deployment.
@@ -19,7 +28,7 @@ MongoDB Atlas usage method can be found [here](https://github.com/ray-d-song/fak
 
 ```bash
 # Install
-npm install -g faker-server
+npm install -g @ray-d-song/faker-server
 # Start
 faker-server
 ```

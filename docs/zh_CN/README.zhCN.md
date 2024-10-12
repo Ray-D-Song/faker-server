@@ -3,6 +3,15 @@
 Faker Server 是一个基于 Faker.js 的 mock 服务器。
 使用 MongoDB 作为数据存储，包含一个前端管理页面，可以方便地管理 mock 数据。
 
+![Faker Server](https://raw.githubusercontent.com/ray-d-song/faker-server/main/docs/static/preview.png)
+
+在线访问：[https://faker-preview.jenrays.com/](https://faker-preview.jenrays.com/)  
+只读密钥：`1234`
+
+Mock 接口列表：  
+* [`GET /mock/user/list`](https://faker-preview.jenrays.com/mock/user/list)
+* [`POST /mock/user`](https://faker-preview.jenrays.com/mock/user)
+
 ## 部署
 
 当前支持 npm 命令和 Docker 部署。
@@ -14,7 +23,7 @@ MongoDB Atlas 的使用方法见 [这里](https://github.com/ray-d-song/faker-se
 
 ```bash
 # 安装
-npm install -g faker-server
+npm install -g @ray-d-song/faker-server
 # 启动
 faker-server
 ```
