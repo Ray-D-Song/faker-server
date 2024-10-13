@@ -12,7 +12,7 @@
     "dev:client": "pnpm run --filter client dev",
     "dev:server": "pnpm run --filter server dev",
     "build:node": "pnpm run --filter server build:node && pnpm run --filter client build",
-    "build:worker": "pnpm run --filter server build:worker && pnpm run --filter client build && npx rollup -c rollup.config.mjs",
+    "build:worker": "pnpm run --filter server build:worker && pnpm run --filter client build",
     "format": "oxlint --fix --fix-suggestions --fix-dangerously && prettier --write ."
   },
   "keywords": [

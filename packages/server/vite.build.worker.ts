@@ -42,6 +42,7 @@ const builtinModules = [
   'vm',
   'zlib',
   'timers',
+  'timers/promises',
   'process',
 ]
 
@@ -53,15 +54,14 @@ function addNodePrefix(): Plugin {
       const workerJsLines = raw.split('\n').map((line) => {
         if (line.startsWith('import ')) {
           builtinModules.forEach((module) => {
-            if (line.includes(module)) {
-              line = line.replace(module, `node:${module}`)
+            if (line.includes(`"${module}"`)) {
+              line = line.replace(`"${module}"`, `"node:${module}"`)
             }
           })
         }
         return line
       })
       writeFileSync('../../dist/_worker.js', workerJsLines.join('\n'))
-      
     },
   }
 }
