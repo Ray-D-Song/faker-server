@@ -24,6 +24,7 @@ const builtinModules = [
   'domain',
   'events',
   'fs',
+  'fs/promises',
   'http',
   'https',
   'net',
