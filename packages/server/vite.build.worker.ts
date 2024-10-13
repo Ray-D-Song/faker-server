@@ -56,7 +56,13 @@ function addNodePrefix(): Plugin {
         if (line.startsWith('import ')) {
           builtinModules.forEach((module) => {
             if (line.includes(`"${module}"`)) {
-              line = line.replace(`"${module}"`, `"node:${module}"`)
+              switch (module) {
+                case 'timers':
+                  line = 'const require$$0$1 = { setTimeout, clearTimeout, setInterval, clearInterval }'
+                  break
+                default:
+                  line = line.replace(`"${module}"`, `"node:${module}"`)
+              }
             }
           })
         }
