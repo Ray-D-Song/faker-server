@@ -20,7 +20,7 @@ app.get('/', async (c) => {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script type="module" src="/static/index.js"></script>
   <link rel="stylesheet" href="/static/index.css">
-  <title>Web Archive</title>
+  <title>Faker Server</title>
 </head>
 <body>
   <div id="root"></div>
