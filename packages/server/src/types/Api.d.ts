@@ -11,6 +11,7 @@ declare global {
     resStatus: number
     resHeaders?: Record<string, string>
     resResponseType: string
+    resBodyText?: string
     resBody: any
     createdAt?: Date
     updatedAt?: Date

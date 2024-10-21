@@ -21,7 +21,10 @@
     "api-path": "接口地址",
     "request-method": "请求方法",
     "api-description": "接口描述",
-    "response-data": "响应数据"
+    "response-data": "响应数据",
+    "structured-editor": "结构化编辑器",
+    "text-editor": "文本编辑器",
+    "help": "结构化编辑器使用 Faker.js 作为 mock 引擎。\n文本编辑器输入 JSON 字符串，内容会被后端解析为 JSON 对象后直接返回"
   },
   "json-editor": {
     "optional-value": "可选值列表,使用^分割",

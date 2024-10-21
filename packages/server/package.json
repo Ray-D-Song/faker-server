@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build:node": "node esbuild.config.mjs",
-    "dev": "pnpm run build:node && cd dist && node index.cjs",
+    "dev": "pnpm run build:node && cd ../../dist && node index.cjs",
     "build:cf": "vite build --config vite.cf.config.ts"
   },
   "dependencies": {

@@ -23,21 +23,23 @@ mockApp.all('/*', async (c) => {
       return c.json({ error: 'API not found' }, 404)
     }
 
-    // 设置响应头
+    // set response headers
     if (api.resHeaders) {
       Object.entries(api.resHeaders).forEach(([key, value]) => {
         c.header(key, value as string)
       })
     }
 
-    // 设置响应状态码
+    // set response status code
     c.status(200)
 
-    // 返回响应体
+    // return response body
     if (api.resBody) {
       switch (api.resResponseType) {
         case 'json':
           return c.json(processResBody(api.resBody))
+        case 'json-text':
+          return c.json(JSON.parse(api.resBodyText || '{}'))
         case 'text':
           return c.text(api.resBody)
         case 'html':

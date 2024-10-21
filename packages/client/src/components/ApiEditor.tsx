@@ -15,6 +15,8 @@ import JsonEditor, { JsonEditorRef, JsonNode } from './response/JsonEditor'
 import { toast } from 'react-hot-toast'
 import i18n from '../utils/i18n'
 import { useTranslation } from 'react-i18next'
+import ReactShikiEditor from 'react-shiki-editor'
+import HelpButton from './help-button'
 
 interface ApiEditorProps {
   type: 'update' | 'create'
@@ -34,6 +36,7 @@ export interface ApiData {
   resHeaders: unknown
   resResponseType: string
   resBody: unknown
+  resBodyText: string
 }
 
 const HTTP_METHODS = ['GET', 'POST', 'PUT', 'DELETE']
@@ -50,6 +53,7 @@ function ApiEditor({ type, apiId, onSave, apiKey }: ApiEditorProps) {
     resHeaders: '',
     resResponseType: 'json',
     resBody: [],
+    resBodyText: '',
   })
   const resBodyRef = useRef<JsonEditorRef>(null)
 
@@ -68,6 +72,7 @@ function ApiEditor({ type, apiId, onSave, apiKey }: ApiEditorProps) {
         resHeaders: '',
         resResponseType: 'json',
         resBody: [],
+        resBodyText: '',
       })
     }
   }, [type, apiId])
@@ -180,27 +185,37 @@ function ApiEditor({ type, apiId, onSave, apiKey }: ApiEditorProps) {
         multiline
         rows={4}
       />
-      {/* <Typography variant="h6">请求参数</Typography>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={activeTab} onChange={handleTabChange} aria-label="请求参数标签页">
-          <Tab label="Query" />
-          <Tab label="Headers" />
-        </Tabs>
-      </Box>
-      <Box sx={{ mt: 2, position: 'relative', height: '200px' }}>
-        <Fade in={activeTab === 0} timeout={300}>
-          <Card sx={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}>
-            <QueryGrid onUpdate={handleQueryUpdate} />
-          </Card>
-        </Fade>
-        <Fade in={activeTab === 1} timeout={300}>
-          <Card sx={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}>
-            <HeadersGrid onUpdate={handleHeadersUpdate} />
-          </Card>
-        </Fade>
-      </Box> */}
-      <Typography variant="h6">{t('api-editor.response-data')}</Typography>
-      <JsonEditor initData={apiData.resBody as JsonNode[]} ref={resBodyRef} />
+      <Typography variant="h6" className='mb-1'>{t('api-editor.response-data')}</Typography>
+      <div className='flex items-center gap-2'>
+      <Select
+        size="small"
+        labelId="editor-type-label"
+        id="editor-type-select"
+        value={apiData.resResponseType}
+        label={t('api-editor.editor-type')}
+        onChange={e => setApiData({
+          ...apiData,
+          resResponseType: e.target.value
+        })}
+      >
+          <MenuItem value="json">{t('api-editor.structured-editor')}</MenuItem>
+          <MenuItem value="json-text">{t('api-editor.text-editor')}</MenuItem>
+        </Select>
+        <HelpButton helpKey='api-editor.help' />
+      </div>
+      {
+        apiData.resResponseType === 'json'
+         ? <JsonEditor initData={apiData.resBody as JsonNode[]} ref={resBodyRef} />
+         : <ReactShikiEditor
+          language='json'
+          theme='dark'
+          value={apiData.resBodyText}
+          onChange={value => setApiData({
+            ...apiData,
+            resBodyText: value
+          })}
+         />
+      }
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
         <Button variant="contained" type="submit">
           {t(`api-editor.${type === 'update' ? 'update' : 'create'}`)}

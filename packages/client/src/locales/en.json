@@ -21,7 +21,10 @@
     "api-path": "API Path",
     "request-method": "Request Method",
     "api-description": "API Description",
-    "response-data": "Response Data"
+    "response-data": "Response Data",
+    "structured-editor": "Structured Editor",
+    "text-editor": "Text Editor",
+    "help": "Structured editor uses Faker.js as the mock engine.\nText editor inputs a JSON string, \nwhich will be parsed as a JSON object and returned directly by the backend."
   },
   "json-editor": {
     "optional-value": "Optional value list, separated by ^",
