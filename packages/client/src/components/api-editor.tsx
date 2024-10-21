@@ -11,7 +11,7 @@ import {
   InputLabel,
   SelectChangeEvent,
 } from '@mui/material'
-import JsonEditor, { JsonEditorRef, JsonNode } from './response/JsonEditor'
+import JsonEditor, { JsonEditorRef, JsonNode } from './response/json-editor'
 import { toast } from 'react-hot-toast'
 import i18n from '../utils/i18n'
 import { useTranslation } from 'react-i18next'
@@ -74,6 +74,7 @@ function ApiEditor({ type, apiId, onSave, apiKey }: ApiEditorProps) {
         resBody: [],
         resBodyText: '',
       })
+      resBodyRef.current?.clearData()
     }
   }, [type, apiId])
 
@@ -111,6 +112,18 @@ function ApiEditor({ type, apiId, onSave, apiKey }: ApiEditorProps) {
     event.preventDefault()
     apiData.resBody = resBodyRef.current?.getData() || []
     onSave(apiData).then(() => {
+      setApiData({
+        name: '',
+        path: '',
+        method: 'GET',
+        description: '',
+        reqParams: '',
+        reqHeaders: '',
+        resHeaders: '',
+        resResponseType: 'json',
+        resBody: [],
+        resBodyText: '',
+      })
       resBodyRef.current?.clearData()
     })
   }
@@ -185,37 +198,43 @@ function ApiEditor({ type, apiId, onSave, apiKey }: ApiEditorProps) {
         multiline
         rows={4}
       />
-      <Typography variant="h6" className='mb-1'>{t('api-editor.response-data')}</Typography>
-      <div className='flex items-center gap-2'>
-      <Select
-        size="small"
-        labelId="editor-type-label"
-        id="editor-type-select"
-        value={apiData.resResponseType}
-        label={t('api-editor.editor-type')}
-        onChange={e => setApiData({
-          ...apiData,
-          resResponseType: e.target.value
-        })}
-      >
+      <Typography variant="h6" className="mb-1">
+        {t('api-editor.response-data')}
+      </Typography>
+      <div className="flex items-center gap-2">
+        <Select
+          size="small"
+          labelId="editor-type-label"
+          id="editor-type-select"
+          value={apiData.resResponseType}
+          label={t('api-editor.editor-type')}
+          onChange={(e) =>
+            setApiData({
+              ...apiData,
+              resResponseType: e.target.value,
+            })
+          }
+        >
           <MenuItem value="json">{t('api-editor.structured-editor')}</MenuItem>
           <MenuItem value="json-text">{t('api-editor.text-editor')}</MenuItem>
         </Select>
-        <HelpButton helpKey='api-editor.help' />
+        <HelpButton helpKey="api-editor.help" />
       </div>
-      {
-        apiData.resResponseType === 'json'
-         ? <JsonEditor initData={apiData.resBody as JsonNode[]} ref={resBodyRef} />
-         : <ReactShikiEditor
-          language='json'
-          theme='dark'
+      {apiData.resResponseType === 'json' ? (
+        <JsonEditor initData={apiData.resBody as JsonNode[]} ref={resBodyRef} />
+      ) : (
+        <ReactShikiEditor
+          language="json"
+          theme="dark"
           value={apiData.resBodyText}
-          onChange={value => setApiData({
-            ...apiData,
-            resBodyText: value
-          })}
-         />
-      }
+          onChange={(value) =>
+            setApiData({
+              ...apiData,
+              resBodyText: value,
+            })
+          }
+        />
+      )}
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
         <Button variant="contained" type="submit">
           {t(`api-editor.${type === 'update' ? 'update' : 'create'}`)}

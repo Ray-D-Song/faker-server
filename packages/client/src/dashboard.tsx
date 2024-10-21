@@ -1,99 +1,21 @@
-import {
-  Box,
-  Drawer,
-  List,
-  ListItem,
-  ListItemText,
-  Toolbar,
-  Chip,
-  Typography,
-  Button,
-  IconButton,
-} from '@mui/material'
-import AddIcon from '@mui/icons-material/Add'
-import DeleteIcon from '@mui/icons-material/Delete'
-import { useState, useEffect } from 'react'
+import { Box } from '@mui/material'
+import { useState, useRef, useContext } from 'react'
 import { toast, Toaster } from 'react-hot-toast'
-import ApiEditor, { ApiData } from './components/ApiEditor'
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  TextField,
-} from '@mui/material'
+import ApiEditor, { ApiData } from './components/api-editor'
 import { useTranslation } from 'react-i18next'
-import TranslateIcon from '@mui/icons-material/Translate'
-import GitHubIcon from '@mui/icons-material/GitHub'
-import SettingsIcon from '@mui/icons-material/Settings'
-interface ApiListItem {
-  _id: string
-  name: string
-  method: string
-  path: string
-}
-
-const drawerWidth = 240
-
-const getMethodColor = (method: string) => {
-  switch (method) {
-    case 'GET':
-      return 'primary'
-    case 'POST':
-      return 'success'
-    case 'DELETE':
-      return 'error'
-    default:
-      return 'default'
-  }
-}
+import SideBar from './components/side-bar'
+import KeyContext from './ctx/key'
+import Header from './components/header'
 
 export default function Dashboard() {
-  const { t, i18n } = useTranslation()
-  const [apis, setApis] = useState<ApiListItem[]>([])
+  const { t } = useTranslation()
   const [selectedApiId, setSelectedApiId] = useState<string | null>(null)
   const [type, setType] = useState<'create' | 'update'>('create')
-  const [openKeyDialog, setOpenKeyDialog] = useState(false)
-  const [apiKey, setApiKey] = useState(
-    localStorage.getItem('mockServerKey') || '',
+  const { apiKey } = useContext(KeyContext)
+
+  const sideBarRef = useRef<{ openKeyDialog: () => void; refresh: () => void }>(
+    null,
   )
-
-  const [refetch, setRefetch] = useState(false)
-  useEffect(() => {
-    const savedKey = localStorage.getItem('mockServerKey')
-    if (savedKey) {
-      setApiKey(savedKey)
-    }
-    fetchApis()
-  }, [refetch])
-
-  const fetchApis = async () => {
-    try {
-      const response = await fetch('/api/list', {
-        headers: {
-          'Faker-Server-Key': apiKey,
-        },
-      })
-      if (response.status === 401) {
-        setOpenKeyDialog(true)
-        return
-      }
-      if (!response.ok) {
-        throw new Error(t('error.get-api-list'))
-      }
-      const data = await response.json()
-      setApis(data)
-    } catch (error) {
-      console.error(error)
-      toast.error(t('error.get-api-list'))
-    }
-  }
-
-  const handleKeySubmit = () => {
-    localStorage.setItem('mockServerKey', apiKey)
-    setOpenKeyDialog(false)
-    fetchApis()
-  }
 
   const handleApiSelect = (id: string) => {
     setSelectedApiId(id)
@@ -124,7 +46,6 @@ export default function Dashboard() {
         }
       }
 
-      setRefetch((prev) => !prev)
       if (api._id) {
         toast.success(t('success.api-update'))
       } else {
@@ -133,7 +54,7 @@ export default function Dashboard() {
 
       setSelectedApiId(null)
       setType('create')
-      fetchApis()
+      sideBarRef.current?.refresh()
     } catch (error) {
       console.error(error)
       if (error instanceof Error) {
@@ -145,126 +66,23 @@ export default function Dashboard() {
     }
   }
 
-  const handleDelete = async (id: string) => {
-    try {
-      const response = await fetch(`/api/delete/${id}`, {
-        method: 'DELETE',
-        headers: {
-          'Faker-Server-Key': apiKey,
-        },
-      })
-      if (!response.ok) {
-        throw new Error(t('error.delete-api'))
-      }
-      setApis((prevApis) => prevApis.filter((api) => api._id !== id))
-      toast.success(t('success.api-delete'))
-    } catch (error) {
-      console.error(error)
-      toast.error(t('error.delete-api'))
-    }
-  }
-
-  const toggleLanguage = () => {
-    const newLang = i18n.language === 'en' ? 'zh' : 'en'
-    i18n.changeLanguage(newLang)
-  }
-
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
       <Toaster position="top-center" />
       <Box sx={{ display: 'flex', flexGrow: 1, overflow: 'hidden' }}>
-        <Drawer
-          variant="permanent"
-          sx={{
-            width: drawerWidth,
-            flexShrink: 0,
-            '& .MuiDrawer-paper': {
-              width: drawerWidth,
-              boxSizing: 'border-box',
-            },
+        <SideBar
+          onSelectItem={handleApiSelect}
+          onSelectCreate={() => {
+            setSelectedApiId(null)
+            setType('create')
           }}
-        >
-          <Toolbar />
-          <Typography variant="h6" sx={{ p: 2, fontWeight: 'bold' }}>
-            {t('dashboard.api-list')}
-          </Typography>
-          <List dense className="overflow-x-hidden">
-            {apis.map((api) => (
-              <ListItem
-                key={api._id}
-                onClick={() => handleApiSelect(api._id)}
-                sx={{
-                  py: 0.5,
-                  transition: 'all 0.2s',
-                  '&:hover': {
-                    backgroundColor: 'action.hover',
-                    transform: 'translateX(5px)',
-                  },
-                  '&:active': {
-                    backgroundColor: 'action.selected',
-                  },
-                }}
-                className="cursor-pointer"
-              >
-                <ListItemText
-                  primary={api.name}
-                  secondary={`${api.method} ${api.path}`}
-                  primaryTypographyProps={{ fontSize: '0.9rem' }}
-                />
-                <Chip
-                  label={api.method}
-                  color={getMethodColor(api.method)}
-                  size="small"
-                  sx={{ fontSize: '0.7rem', height: 20, mr: 1 }}
-                />
-                <IconButton
-                  size="small"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    handleDelete(api._id)
-                  }}
-                  sx={{ p: 0.5 }}
-                >
-                  <DeleteIcon fontSize="small" />
-                </IconButton>
-              </ListItem>
-            ))}
-          </List>
-          <Box sx={{ p: 2, mt: 'auto' }}>
-            <Button
-              variant="contained"
-              startIcon={<AddIcon />}
-              fullWidth
-              size="small"
-              onClick={() => {
-                setSelectedApiId(null)
-                setType('create')
-              }}
-            >
-              {t('dashboard.create-api')}
-            </Button>
-          </Box>
-        </Drawer>
+          ref={sideBarRef}
+        />
         <Box
           component="main"
           sx={{ flexGrow: 1, p: 3, pt: 1, overflow: 'auto' }}
         >
-          <div className="w-full h-8 mb-4 z-10 flex items-center justify-end">
-            <IconButton color="inherit" onClick={() => setOpenKeyDialog(true)}>
-              <SettingsIcon />
-            </IconButton>
-            <IconButton onClick={toggleLanguage} color="inherit">
-              <TranslateIcon />
-            </IconButton>
-            <IconButton
-              href="https://github.com/ray-d-song/faker-server"
-              target="_blank"
-              rel="noopener noreferrer"
-              color="inherit"
-            >
-              <GitHubIcon />
-            </IconButton>
-          </div>
+          <Header openKeyDialog={() => sideBarRef.current?.openKeyDialog()} />
           <ApiEditor
             type={type}
             onSave={handleSave}
@@ -273,27 +91,6 @@ export default function Dashboard() {
           />
         </Box>
       </Box>
-      <Dialog open={openKeyDialog} onClose={() => setOpenKeyDialog(false)}>
-        <DialogTitle>{t('dashboard.input-key')}</DialogTitle>
-        <DialogContent>
-          <TextField
-            autoFocus
-            margin="dense"
-            label={t('dashboard.key')}
-            type="password"
-            fullWidth
-            variant="outlined"
-            value={apiKey}
-            onChange={(e) => setApiKey(e.target.value)}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpenKeyDialog(false)}>
-            {t('global.cancel')}
-          </Button>
-          <Button onClick={handleKeySubmit}>{t('global.confirm')}</Button>
-        </DialogActions>
-      </Dialog>
     </Box>
   )
 }

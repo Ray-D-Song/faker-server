@@ -1,4 +1,4 @@
-import React, { useState, memo, useImperativeHandle, forwardRef } from 'react'
+import { useState, memo, useImperativeHandle, forwardRef } from 'react'
 import { SimpleTreeView, TreeItem } from '@mui/x-tree-view'
 import {
   TextField,
@@ -10,7 +10,7 @@ import {
 } from '@mui/material'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
-import FakerSelect from '../FakerSelect'
+import FakerSelect from '../faker-select'
 import { useTranslation } from 'react-i18next'
 
 export interface JsonNode {

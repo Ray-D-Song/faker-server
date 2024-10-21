@@ -1,4 +1,4 @@
-import CommonGrid from './CommonGrid'
+import CommonGrid from './common-grid'
 
 const typeOptions = ['string', 'boolean', 'number', 'array']
 

@@ -1,4 +1,4 @@
-import CommonGrid from './CommonGrid'
+import CommonGrid from './common-grid'
 
 // 常见的 HTTP Headers
 const commonHeaders = [

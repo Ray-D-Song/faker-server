@@ -1,5 +1,7 @@
 import { createTheme, CssBaseline, ThemeProvider } from '@mui/material'
 import Dashboard from './dashboard'
+import KeyContext from './ctx/key'
+import { useState } from 'react'
 
 const darkTheme = createTheme({
   palette: {
@@ -12,10 +14,15 @@ const darkTheme = createTheme({
 })
 
 function App() {
+  const [apiKey, setApiKey] = useState(
+    localStorage.getItem('mockServerKey') || '',
+  )
   return (
     <ThemeProvider theme={darkTheme}>
-      <CssBaseline />
-      <Dashboard />
+      <KeyContext.Provider value={{ apiKey, setApiKey }}>
+        <CssBaseline />
+        <Dashboard />
+      </KeyContext.Provider>
     </ThemeProvider>
   )
 }
